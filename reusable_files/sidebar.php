@@ -67,13 +67,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <!-- Log Out -->
-            <li class="nav-item <?= $currentPage === 'account_settings.php' ? 'active' : '' ?>">
+            <li class="nav-item <?= $currentPage === 'logout.php' ? 'active' : '' ?>">
                 <a href="logout.php" class="nav-link">
                     <span class="nav-icon">
-                        <img src="assets/icons/acc_settings_icon.png" alt="Account Settings">
+                        <img src="assets/icons/logout_icon.png" alt="Account Settings">
                     </span>
                     <span class="nav-label">Log Out</span>
-                    <?php if ($currentPage === 'account_settings.php'): ?>
+                    <?php if ($currentPage === 'logout.php'): ?>
                         <span class="nav-active-bar"></span>
                     <?php endif; ?>
                 </a>

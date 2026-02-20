@@ -9,7 +9,7 @@ try {
     $sql = "SELECT `jo_id`, `name`, `designation`, `rate`, `date_from`, `date_to`, 
                    `funding_charges`, `ref_folder`, `ref_file` 
             FROM `jo_contracts`
-            ORDER BY `jo_id` ASC";
+            ORDER BY `date_to` IS NULL DESC, `date_to` DESC";
 
     $stmt       = $conn->query($sql);
     $jo_records = $stmt->fetchAll();
@@ -157,13 +157,13 @@ function fmt_date($d) {
                         <tbody id="joTableBody">
 
                             <?php if (!empty($jo_records)) : ?>
-                                <?php $counter = 1; ?>
+                                <?php $total = count($jo_records); $counter = $total; ?>
                                 <?php foreach ($jo_records as $row) : ?>
                                 <tr class="jo-data-row"
                                     data-name="<?= htmlspecialchars(strtolower($row['name'])) ?>"
                                     data-ref-folder="<?= htmlspecialchars($row['ref_folder']) ?>"
                                     data-has-file="<?= (int)$row['ref_file'] ?>">
-                                    <td><?= $counter++ ?></td>
+                                    <td><?= $counter-- ?></td>
                                     <td><?= htmlspecialchars(strtoupper($row['name'])) ?></td>
                                     <td><?= htmlspecialchars(strtoupper($row['designation'])) ?></td>
                                     <td>₱<?= number_format((float)$row['rate'], 2) ?></td>
