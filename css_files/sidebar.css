@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Barlow:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --sidebar-width: 220px;
+    --green-dark:   #1a3d1f;
+    --green-mid:    #2a5c30;
+    --green-light:  #e8f5e9;
+    --green-accent: #4caf50;
+    --white:        #ffffff;
+    --text-muted:   #a5c8a8;
+    --active-bg:    rgba(255,255,255,0.12);
+    --hover-bg:     rgba(255,255,255,0.07);
+    --border-light: rgba(255,255,255,0.10);
+}
+
+/* ---------- Sidebar Shell ---------- */
+.sidebar {
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--green-dark) 0%, #122a16 100%);
+    display: flex;
+    flex-direction: column;
+    font-family: 'Source Sans 3', sans-serif;
+    box-shadow: 4px 0 18px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle texture overlay */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.012) 40px,
+        rgba(255,255,255,0.012) 80px
+    );
+    pointer-events: none;
+}
+
+/* ---------- Brand / Logo Area ---------- */
+.sidebar-brand {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 16px 18px;
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+}
+
+.sidebar-logo {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    overflow: hidden;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.sidebar-logo img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.brand-sub {
+    font-family: 'Barlow', sans-serif;
+    font-size: 7.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.brand-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.45;
+    letter-spacing: 0.02em;
+}
+
+/* ---------- Navigation ---------- */
+.sidebar-nav {
+    flex: 1;
+    padding: 16px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 10px;
+}
+
+/* ---------- Nav Item ---------- */
+.nav-item .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item .nav-link:hover {
+    background: var(--hover-bg);
+    color: var(--white);
+}
+
+/* Active state */
+.nav-item.active .nav-link {
+    background: var(--active-bg);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+/* Active right-edge bar */
+.nav-active-bar {
+    position: absolute;
+    right: -2px;
+    top: 18%;
+    height: 64%;
+    width: 3px;
+    background: var(--green-accent);
+    border-radius: 4px 0 0 4px;
+}
+
+/* Nav Icon */
+.nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+
+
+/* Nav Label */
+.nav-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 64px;
+    }
+    .sidebar-brand-text,
+    .nav-label,
+    .brand-sub {
+        display: none;
+    }
+    .sidebar-brand {
+        justify-content: center;
+        padding: 16px 8px;
+    }
+    .sidebar-nav ul {
+        padding: 0 6px;
+    }
+    .nav-item .nav-link {
+        justify-content: center;
+        padding: 10px;
+    }
+}
+
+.nav-icon img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+
+    filter: brightness(0) invert(1);
+
+    opacity: 0.7;
+    transition: opacity 0.2s, filter 0.2s;
+}
+
+.nav-item.active .nav-icon img,
+.nav-item .nav-link:hover .nav-icon img {
+    opacity: 1;
+}
+
+.nav-icon img.no-filter {
+    filter: none;
+}

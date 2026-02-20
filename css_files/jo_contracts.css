@@ -1,0 +1,265 @@
+.jo-wrapper {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* ── Page Title ── */
+.jo-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #1a3d1f;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ── Toolbar (search + button) ── */
+.jo-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Search Box */
+.jo-search-wrap {
+    position: relative;
+    width: 240px;
+}
+
+.jo-search-wrap .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b9470;
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.jo-search-wrap input[type="text"] {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    border: 1.5px solid #b2cfb5;
+    border-radius: 6px;
+    background: #ffffff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    color: #1a2e1c;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.jo-search-wrap input[type="text"]::placeholder {
+    color: #9ab89e;
+    font-style: italic;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.jo-search-wrap input[type="text"]:focus {
+    border-color: #2a5c30;
+}
+
+/* Add New Button */
+.jo-btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    background: #2a5c30;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.jo-btn-add:hover {
+    background: #1a3d1f;
+}
+
+.jo-btn-add .btn-plus {
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* ── Table Container ── */
+.jo-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 4px;
+}
+
+/* ── Table ── */
+.jo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    min-width: 860px;
+}
+
+/* Header Row */
+.jo-table thead tr {
+    background: transparent;
+}
+
+.jo-table thead th {
+    padding: 10px 10px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    text-align: center;
+    border-bottom: 2px solid #b2cfb5;
+    white-space: nowrap;
+}
+
+/* Period of Employment group header */
+.th-period {
+    text-align: center !important;
+    border-bottom: 2px solid #b2cfb5;
+}
+
+.th-period-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.th-period-sub {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    justify-content: center;
+}
+
+.th-from, .th-to {
+    flex: 1;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 6px;
+}
+
+.th-divider {
+    color: #6b9470;
+    font-weight: 400;
+}
+
+/* Body Rows */
+.jo-table tbody tr {
+    background: #ffffff;
+    transition: background 0.15s;
+}
+
+/* JS-controlled striping — always green first, white second, regardless of hidden rows */
+.jo-table tbody tr.row-odd  { background: #c8dfc9; }
+.jo-table tbody tr.row-even { background: #ffffff;  }
+
+.jo-table tbody tr.row-shaded {
+    background: #ffffff;
+    height: 32px;
+}
+
+.jo-table tbody tr:not(.row-shaded):hover {
+    background: #f0faf1;
+}
+
+.jo-table tbody td {
+    padding: 11px 10px;
+    text-align: center;
+    color: #1a2e1c;
+    font-size: 0.83rem;
+    border-bottom: 1px solid #e0ede1;
+    white-space: nowrap;
+}
+
+/* Period separator pipe */
+.td-pipe {
+    color: #6b9470;
+    padding: 0 2px;
+}
+
+/* Reference Folder badge */
+.ref-folder-badge {
+    display: inline-block;
+    background: transparent;
+    color: #1a3d1f;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* View Link */
+.btn-view {
+    display: inline-block;
+    color: #2a5c30;
+    font-weight: 700;
+    font-size: 0.83rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.15s;
+}
+
+.btn-view:hover {
+    color: #1a3d1f;
+    text-decoration: underline;
+}
+
+/* Unavailable button — same format as VIEW, red colour */
+.btn-unavailable {
+    display: inline-block;
+    color: #c0392b;
+    font-weight: 700;
+    font-size: 0.83rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.15s;
+}
+
+.btn-unavailable:hover {
+    color: #922b21;
+    text-decoration: underline;
+}
+
+/* Empty shaded rows to fill the table visually */
+.row-shaded td {
+    padding: 0;
+    border-bottom: none;
+}
+
+/* No results row */
+.jo-table tbody tr.no-results td {
+    text-align: center;
+    color: #7a9e7e;
+    font-style: italic;
+    padding: 24px 0;
+    background: #fff;
+}

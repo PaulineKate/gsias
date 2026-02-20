@@ -1,0 +1,313 @@
+.joreg-wrapper {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* ── Page Title ─── */
+.joreg-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #1a3d1f;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ── Card ── */
+.joreg-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 28px 32px 32px;
+    box-shadow: 0 2px 12px rgba(26, 61, 31, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.joreg-card-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding-bottom: 4px;
+}
+
+/* ── Top Row (dates + ref folder) ── */
+.joreg-top-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.joreg-top-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.joreg-top-group-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.joreg-top-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.joreg-field-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Divider line under top row */
+.joreg-divider {
+    height: 2px;
+    background: #2a5c30;
+    border-radius: 2px;
+    margin: 10px 0 10px;
+}
+
+/* ── Inputs ── */
+.joreg-input {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    color: #1a2e1c;
+    background: #e8f0e8;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    outline: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.joreg-input:focus {
+    background: #d4e8d4;
+    box-shadow: 0 0 0 2px #2a5c3055;
+}
+
+.joreg-input::placeholder {
+    color: #a0b8a0;
+    font-size: 0.78rem;
+}
+
+/* Specific widths */
+.joreg-input.w-date     { width: 140px; }
+.joreg-input.w-ref      { width: 200px; }
+
+/* ── PDF Upload Row ── */
+.joreg-pdf-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.joreg-pdf-label-text {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.joreg-pdf-or {
+    font-size: 0.75rem;
+    color: #7a9e7e;
+    font-style: italic;
+}
+
+.joreg-pdf-name {
+    font-size: 0.78rem;
+    color: #2a5c30;
+    font-weight: 600;
+    font-style: italic;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Multi-row grid ── */
+.joreg-grid-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 100px 36px;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+.joreg-grid-col-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.joreg-rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.joreg-entry-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 100px 36px;
+    gap: 8px;
+    align-items: center;
+    animation: rowSlideIn 0.2s ease;
+}
+
+@keyframes rowSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Add Row Button ── */
+.joreg-btn-add-row {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #1a3d1f;
+    color: #fff;
+    border: none;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+}
+
+.joreg-btn-add-row:hover {
+    background: #2a5c30;
+    transform: scale(1.08);
+}
+
+/* Remove row button */
+.joreg-btn-remove-row {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #c0392b22;
+    color: #c0392b;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+}
+
+.joreg-btn-remove-row:hover {
+    background: #c0392b33;
+    transform: scale(1.08);
+}
+
+/* ── Footer Buttons ── */
+.joreg-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.joreg-btn-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #1a3d1f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.joreg-btn-upload:hover { background: #2a5c30; }
+
+/* Hidden file input overlays the button */
+.joreg-file-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+}
+
+.joreg-btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 28px;
+    background: #7a9e7e;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.joreg-btn-save:hover { background: #2a5c30; }
+
+/* ── Toast / Alert ── */
+.joreg-alert {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: 'Source Sans 3', sans-serif;
+    display: none;
+}
+
+.joreg-alert.success {
+    background: #d4edda;
+    color: #1a3d1f;
+    border: 1px solid #b2cfb5;
+    display: block;
+}
+
+.joreg-alert.error {
+    background: #fde8e8;
+    color: #c0392b;
+    border: 1px solid #f0b8b8;
+    display: block;
+}

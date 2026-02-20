@@ -1,0 +1,245 @@
+/* ===========================
+   GSIAS Login Page Styles
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    --dark-green: #1a4a1a;
+    --mid-green: #2d6a2d;
+    --btn-green: #1e5c1e;
+    --btn-hover: #155015;
+    --card-bg: rgba(220, 235, 220, 0.75);
+    --left-panel-bg: rgba(210, 228, 210, 0.85);
+    --text-dark: #1a3a1a;
+    --divider-color: #2d6a2d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #1a4a1a;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+/* Background image with green overlay */
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: url('../assets/provincial_capitol.png'); /* Replace with your actual background image */
+    background-size: cover;
+    width: 120vw;
+    background-position: center;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.bg-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(20, 60, 20, 0.72);
+}
+
+/* ---- Wrapper ---- */
+.login-wrapper {
+    position: relative;
+    z-index: 1;
+    padding: 10px;
+}
+
+/* ---- Main Card ---- */
+.login-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 18px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 860px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+    padding: 15px 0px 15px 40px;
+}
+
+/* ---- Left Panel ---- */
+.left-panel {
+    background: var(--left-panel-bg);
+    border-radius: 12px;
+    padding: 40px 20px;
+    height: 100%;
+}
+
+.logo-wrapper {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Placeholder circle if logo image is missing */
+.logo-placeholder {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid var(--mid-green);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--mid-green);
+    text-align: center;
+    margin: 0 auto;
+}
+
+.system-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    line-height: 1.2;
+    margin-top: 14px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.office-name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.province-name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0;
+}
+
+/* ---- Vertical Divider ---- */
+.vertical-divider {
+    width: 12px;
+    height: 250px;
+    position: relative;
+    bottom: 35px;
+    background-color:#0E4B12;
+    margin: 0 0 0 30px;
+}
+
+/* ---- Right Panel ---- */
+.right-panel {
+    padding: 40px 20px;
+}
+
+.login-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 45px;
+    font-weight: 800;
+    color: var(--dark-green);
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+/* ---- Form Labels ---- */
+.field-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+/* ---- Inputs ---- */
+.login-input {
+    background-color: rgba(240, 248, 240, 0.9);
+    border: 1.5px solid rgba(45, 106, 45, 0.35);
+    border-radius: 8px;
+    height: 46px;
+    font-size: 14px;
+    color: #1a3a1a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-input:focus {
+    background-color: #fff;
+    border-color: var(--mid-green);
+    box-shadow: 0 0 0 3px rgba(45,106,45,0.18);
+    outline: none;
+}
+
+/* ---- Login Button ---- */
+.btn.login-btn {
+    background-color: #0E4B12;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    margin-top: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn.login-btn:hover {
+    background-color: var(--btn-hover);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+    .login-card {
+        padding: 6px;
+    }
+
+    .left-panel {
+        border-radius: 12px 12px 0 0;
+        padding: 28px 20px;
+    }
+
+    .right-panel {
+        padding: 28px 20px;
+    }
+
+    .login-heading {
+        font-size: 34px;
+    }
+
+    .vertical-divider {
+        display: none;
+    }
+
+    .system-title {
+        font-size: 13px;
+    }
+}

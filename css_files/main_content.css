@@ -1,0 +1,183 @@
+/* ============================================================
+   MAIN_CONTENT.CSS — GSIAS Main Content Area Styles
+   ============================================================ */
+
+/* ── Scrollable Content Area ───────────────────────────────── */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--green-content);
+    padding: 28px 32px;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+.main-content::-webkit-scrollbar {
+    width: 6px;
+}
+.main-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(26, 61, 31, 0.25);
+    border-radius: 99px;
+}
+
+/* ── Page Title ────────────────────────────────────────────── */
+.page-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--green-dark);
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(26, 61, 31, 0.08);
+    border: 1px solid rgba(26, 61, 31, 0.07);
+}
+
+.card-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* ── Stats Row ─────────────────────────────────────────────── */
+.stats-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 140px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 10px rgba(26, 61, 31, 0.08);
+    border: 1px solid rgba(26, 61, 31, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6a9b70;
+}
+
+.stat-value {
+    font-family: 'Barlow', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--green-dark);
+    line-height: 1;
+}
+
+/* ── Table ─────────────────────────────────────────────────── */
+.gsias-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.gsias-table thead tr {
+    background: var(--green-dark);
+    color: #ffffff;
+}
+
+.gsias-table thead th {
+    padding: 11px 16px;
+    text-align: left;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.gsias-table tbody tr {
+    border-bottom: 1px solid rgba(26, 61, 31, 0.08);
+    transition: background 0.15s;
+}
+
+.gsias-table tbody tr:hover {
+    background: var(--green-light);
+}
+
+.gsias-table tbody td {
+    padding: 10px 16px;
+    color: #2a3d2c;
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: var(--green-dark);
+    color: #ffffff;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--green-dark);
+    border: 1.5px solid var(--green-dark);
+}
+
+/* ── Badge ─────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.badge-success { background: #d4edda; color: #1a5c25; }
+.badge-warning { background: #fff3cd; color: #856404; }
+.badge-danger  { background: #f8d7da; color: #721c24; }
+.badge-info    { background: #d1ecf1; color: #0c5460; }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 18px 14px;
+    }
+    .stats-row {
+        flex-direction: column;
+    }
+}
