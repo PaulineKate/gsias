@@ -19,7 +19,6 @@
     --border-light: rgba(255,255,255,0.10);
 }
 
-/* ---------- Sidebar Shell ---------- */
 .sidebar {
     width: var(--sidebar-width);
     min-height: 100vh;
@@ -29,10 +28,10 @@
     font-family: 'Source Sans 3', sans-serif;
     box-shadow: 4px 0 18px rgba(0,0,0,0.25);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-/* Subtle texture overlay */
 .sidebar::before {
     content: '';
     position: absolute;
@@ -47,7 +46,6 @@
     pointer-events: none;
 }
 
-/* ---------- Brand / Logo Area ---------- */
 .sidebar-brand {
     display: flex;
     align-items: flex-start;
@@ -59,8 +57,8 @@
 
 .sidebar-logo {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 2px solid rgba(255,255,255,0.25);
     overflow: hidden;
@@ -69,11 +67,12 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    margin-top: 15px;
 }
 
 .sidebar-logo img {
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
 }
 
@@ -95,20 +94,19 @@
 
 .brand-title {
     font-family: 'Barlow', sans-serif;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--white);
     line-height: 1.45;
     letter-spacing: 0.02em;
 }
 
-/* ---------- Navigation ---------- */
 .sidebar-nav {
     flex: 1;
     padding: 16px 0;
 }
 
-.sidebar-nav ul {
+.sidebar-nav > ul {
     list-style: none;
     display: flex;
     flex-direction: column;
@@ -116,7 +114,11 @@
     padding: 0 10px;
 }
 
-/* ---------- Nav Item ---------- */
+.nav-item {
+    display: block;
+    position: relative;
+}
+
 .nav-item .nav-link {
     display: flex;
     align-items: center;
@@ -130,7 +132,6 @@
     letter-spacing: 0.01em;
     transition: background 0.2s, color 0.2s;
     position: relative;
-    overflow: hidden;
 }
 
 .nav-item .nav-link:hover {
@@ -138,14 +139,12 @@
     color: var(--white);
 }
 
-/* Active state */
 .nav-item.active .nav-link {
     background: var(--active-bg);
     color: var(--white);
     border: 1px solid rgba(255,255,255,0.13);
 }
 
-/* Active right-edge bar */
 .nav-active-bar {
     position: absolute;
     right: -2px;
@@ -156,7 +155,6 @@
     border-radius: 4px 0 0 4px;
 }
 
-/* Nav Icon */
 .nav-icon {
     display: flex;
     align-items: center;
@@ -166,51 +164,12 @@
     flex-shrink: 0;
 }
 
-
-
-/* Nav Label */
-.nav-label {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 64px;
-    }
-    .sidebar-brand-text,
-    .nav-label,
-    .brand-sub {
-        display: none;
-    }
-    .sidebar-brand {
-        justify-content: center;
-        padding: 16px 8px;
-    }
-    .sidebar-nav ul {
-        padding: 0 6px;
-    }
-    .nav-item .nav-link {
-        justify-content: center;
-        padding: 10px;
-    }
-}
-
 .nav-icon img {
-    width: 100%;
-    height: 100%;
-
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-
-    max-width: 100%;
-    max-height: 100%;
     display: block;
-
     filter: brightness(0) invert(1);
-
     opacity: 0.7;
     transition: opacity 0.2s, filter 0.2s;
 }
@@ -222,4 +181,140 @@
 
 .nav-icon img.no-filter {
     filter: none;
+}
+
+.nav-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-arrow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-left: auto;
+    transition: transform 0.25s ease;
+}
+
+.nav-arrow-icon img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) invert(1);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.nav-item.has-dropdown.open > .nav-link .nav-arrow-icon {
+    transform: rotate(180deg);
+}
+
+.nav-item.has-dropdown.open > .nav-link .nav-arrow-icon img,
+.nav-item.has-dropdown > .nav-link:hover .nav-arrow-icon img {
+    opacity: 1;
+}
+
+.nav-item.has-dropdown > .nav-link {
+    cursor: pointer;
+}
+
+.nav-item.has-dropdown.parent-active > .nav-link {
+    color: var(--white);
+}
+
+.nav-dropdown {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.nav-item.has-dropdown.open > .nav-dropdown {
+    max-height: 300px;
+    opacity: 1;
+    padding: 2px 0 4px 0;
+}
+
+.nav-sub-item {
+    display: block;
+}
+
+.nav-sub-item .nav-sub-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px 8px 43px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    color: var(--text-muted) !important;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+}
+
+.nav-sub-item .nav-sub-link:hover {
+    background: var(--hover-bg);
+    color: var(--white) !important;
+}
+
+.nav-sub-item.active .nav-sub-link {
+    background: var(--active-bg);
+    color: var(--white) !important;
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.nav-sub-active-bar {
+    position: absolute;
+    right: -2px;
+    top: 18%;
+    height: 64%;
+    width: 3px;
+    background: var(--green-accent);
+    border-radius: 4px 0 0 4px;
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 64px;
+    }
+
+    .sidebar-brand-text,
+    .nav-label,
+    .brand-sub,
+    .nav-arrow-icon {
+        display: none;
+    }
+
+    .sidebar-brand {
+        justify-content: center;
+        padding: 16px 8px;
+    }
+
+    .sidebar-nav > ul {
+        padding: 0 6px;
+    }
+
+    .nav-item .nav-link {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .nav-dropdown .nav-sub-item .nav-sub-link {
+        padding: 8px 10px;
+        justify-content: center;
+    }
 }

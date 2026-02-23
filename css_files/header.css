@@ -124,6 +124,21 @@
     color: var(--text-soft);
     letter-spacing: 0.03em;
 }
+.header-avatar-container {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Image fills the container */
+.header-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 480px) {

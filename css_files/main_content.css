@@ -1,16 +1,11 @@
-/* ============================================================
-   MAIN_CONTENT.CSS — GSIAS Main Content Area Styles
-   ============================================================ */
 
-/* ── Scrollable Content Area ───────────────────────────────── */
 .main-content {
     flex: 1;
     overflow-y: auto;
     background: var(--green-content);
-    padding: 28px 32px;
+    padding: 10px 32px;
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────── */
 .main-content::-webkit-scrollbar {
     width: 6px;
 }
@@ -22,7 +17,6 @@
     border-radius: 99px;
 }
 
-/* ── Page Title ────────────────────────────────────────────── */
 .page-title {
     font-family: 'Barlow', sans-serif;
     font-size: 22px;
@@ -32,7 +26,6 @@
     letter-spacing: 0.01em;
 }
 
-/* ── Card ──────────────────────────────────────────────────── */
 .card {
     background: #ffffff;
     border-radius: 12px;
@@ -52,7 +45,6 @@
     text-transform: uppercase;
 }
 
-/* ── Stats Row ─────────────────────────────────────────────── */
 .stats-row {
     display: flex;
     gap: 16px;
@@ -89,7 +81,6 @@
     line-height: 1;
 }
 
-/* ── Table ─────────────────────────────────────────────────── */
 .gsias-table {
     width: 100%;
     border-collapse: collapse;
@@ -125,7 +116,6 @@
     color: #2a3d2c;
 }
 
-/* ── Buttons ───────────────────────────────────────────────── */
 .btn {
     display: inline-flex;
     align-items: center;

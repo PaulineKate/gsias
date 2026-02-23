@@ -31,15 +31,15 @@ function fmt_date($d) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GSIAS — JO Contracts</title>
-    <!-- Google Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Barlow:wght@500;700;800&display=swap" rel="stylesheet">
-    <!-- Component Styles -->
+
     <link rel="stylesheet" href="css_files/sidebar.css">
     <link rel="stylesheet" href="css_files/header.css">
     <link rel="stylesheet" href="css_files/main_content.css">
-    <!-- JO Contracts Styles -->
+
     <link rel="stylesheet" href="css_files/jo_contracts.css">
     <style>
         *, *::before, *::after {
@@ -91,28 +91,20 @@ function fmt_date($d) {
 <body>
 <div class="app-shell">
 
-    <!-- SIDEBAR -->
     <aside class="app-sidebar">
         <?php include 'reusable_files/sidebar.php'; ?>
     </aside>
 
-    <!-- RIGHT COLUMN -->
     <div class="app-right">
 
-        <!-- HEADER -->
         <div class="app-header">
             <?php include 'reusable_files/header.php'; ?>
         </div>
 
-        <!-- MAIN CONTENT -->
         <main class="main-content">
 
             <div class="jo-wrapper">
-
-                <!-- Page Title -->
                 <h1 class="jo-title">Job Order Contracts</h1>
-
-                <!-- Toolbar -->
                 <div class="jo-toolbar">
                     <div class="jo-search-wrap">
                         <span class="search-icon">
@@ -132,7 +124,6 @@ function fmt_date($d) {
                     </button>
                 </div>
 
-                <!-- Table -->
                 <div class="jo-table-container">
                     <table class="jo-table">
                         <thead>

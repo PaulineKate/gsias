@@ -7,7 +7,6 @@
     overflow-y: auto;
 }
 
-/* ── Page Title ─── */
 .joreg-title {
     font-family: 'Barlow', sans-serif;
     font-size: 1.65rem;
@@ -17,7 +16,6 @@
     text-transform: uppercase;
 }
 
-/* ── Card ── */
 .joreg-card {
     background: #ffffff;
     border-radius: 12px;
@@ -38,7 +36,6 @@
     padding-bottom: 4px;
 }
 
-/* ── Top Row (dates + ref folder) ── */
 .joreg-top-row {
     display: flex;
     align-items: flex-end;
@@ -78,7 +75,6 @@
     white-space: nowrap;
 }
 
-/* Divider line under top row */
 .joreg-divider {
     height: 2px;
     background: #2a5c30;
@@ -110,9 +106,79 @@
     font-size: 0.78rem;
 }
 
-/* Specific widths */
-.joreg-input.w-date     { width: 140px; }
-.joreg-input.w-ref      { width: 200px; }
+.joreg-input.w-date { width: 140px; }
+.joreg-input.w-ref  { width: 200px; }
+
+.joreg-input--error {
+    background: #fde8e8 !important;
+    box-shadow: 0 0 0 2px #c0392b55 !important;
+}
+
+/* ── Field wrap ── */
+.joreg-field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.joreg-field-error {
+    font-size: 0.7rem;
+    color: #c0392b;
+    font-family: 'Source Sans 3', sans-serif;
+    display: none;
+    padding-left: 4px;
+    line-height: 1.3;
+}
+
+/* ── Autocomplete wrap ── */
+.joreg-ac-wrap {
+    position: relative;
+}
+
+/* ── Autocomplete dropdown ── */
+.joreg-ac-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #b2cfb5;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(26, 61, 31, 0.12);
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    z-index: 500;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.joreg-ac-dropdown:not(:empty) {
+    display: block;
+}
+
+.joreg-ac-dropdown li {
+    padding: 8px 14px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.83rem;
+    color: #1a2e1c;
+    cursor: pointer;
+    transition: background 0.15s;
+    list-style: none;
+}
+
+.joreg-ac-dropdown li:hover,
+.joreg-ac-dropdown li.active {
+    background: #e8f0e8;
+    color: #1a3d1f;
+    font-weight: 600;
+}
+
+.joreg-ac-dropdown::-webkit-scrollbar { width: 6px; }
+.joreg-ac-dropdown::-webkit-scrollbar-track { background: transparent; }
+.joreg-ac-dropdown::-webkit-scrollbar-thumb { background: #b2cfb5; border-radius: 3px; }
 
 /* ── PDF Upload Row ── */
 .joreg-pdf-row {
@@ -148,7 +214,7 @@
     white-space: nowrap;
 }
 
-/* ── Multi-row grid ── */
+/* ── Grid headers ── */
 .joreg-grid-header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 100px 36px;
@@ -165,6 +231,7 @@
     letter-spacing: 0.4px;
 }
 
+/* ── Entry rows ── */
 .joreg-rows-container {
     display: flex;
     flex-direction: column;
@@ -175,7 +242,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 100px 36px;
     gap: 8px;
-    align-items: center;
+    align-items: start;
     animation: rowSlideIn 0.2s ease;
 }
 
@@ -184,7 +251,7 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Add Row Button ── */
+/* ── Buttons ── */
 .joreg-btn-add-row {
     width: 34px;
     height: 34px;
@@ -200,6 +267,7 @@
     justify-content: center;
     transition: background 0.2s, transform 0.15s;
     flex-shrink: 0;
+    margin-top: 4px;
 }
 
 .joreg-btn-add-row:hover {
@@ -207,7 +275,6 @@
     transform: scale(1.08);
 }
 
-/* Remove row button */
 .joreg-btn-remove-row {
     width: 34px;
     height: 34px;
@@ -223,6 +290,7 @@
     justify-content: center;
     transition: background 0.2s, transform 0.15s;
     flex-shrink: 0;
+    margin-top: 4px;
 }
 
 .joreg-btn-remove-row:hover {
@@ -230,7 +298,6 @@
     transform: scale(1.08);
 }
 
-/* ── Footer Buttons ── */
 .joreg-footer {
     display: flex;
     justify-content: flex-end;
@@ -260,7 +327,6 @@
 
 .joreg-btn-upload:hover { background: #2a5c30; }
 
-/* Hidden file input overlays the button */
 .joreg-file-input {
     position: absolute;
     inset: 0;
@@ -274,7 +340,7 @@
     align-items: center;
     gap: 8px;
     padding: 10px 28px;
-    background: #7a9e7e;
+    background: #2a5c30;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -287,9 +353,9 @@
     transition: background 0.2s;
 }
 
-.joreg-btn-save:hover { background: #2a5c30; }
+.joreg-btn-save:hover { background: #1a3d1f; }
 
-/* ── Toast / Alert ── */
+/* ── Alert ── */
 .joreg-alert {
     padding: 10px 16px;
     border-radius: 8px;

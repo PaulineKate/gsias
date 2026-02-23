@@ -102,7 +102,7 @@ include 'reusable_files/session.php';
 
             <!-- CONTENT GOES HERE -->
 
-
+            <img src="assets/pgso_logo.png" alt="pgso logo" style="height: 100%; width: 80%; background-size: cover; margin:0 10% ;">
 
             <!-- END OF CONTENT -->
 

@@ -1,0 +1,349 @@
+
+.gs-wrapper {
+    padding: 28px 32px 0px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.gs-page-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+}
+
+/* ── Card container ── */
+.gs-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.gs-card-title {
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 20px;
+}
+
+/* ── Two-column grid for both panels ── */
+.gs-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .gs-panels {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Individual panel ── */
+.gs-panel {
+    background: #f9fcf9;
+    border: 1px solid #d4edda;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gs-panel-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #4a7a50;
+}
+
+/* ── Table wrapper (scrollable, fixed height) ── */
+.gs-table-wrapper {
+    height: 220px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #d4edda;
+    background: #fff;
+
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #a8d5b0 transparent;
+}
+
+.gs-table-wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+.gs-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+.gs-table-wrapper::-webkit-scrollbar-thumb {
+    background: #a8d5b0;
+    border-radius: 4px;
+}
+
+/* ── Table ── */
+.gs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.gs-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #e8f5e9;
+}
+
+.gs-table thead th {
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #4a7a50;
+    border-bottom: 1px solid #c8e6c9;
+}
+
+.gs-table thead th:first-child {
+    width: 52px;
+    text-align: center;
+}
+
+.gs-table thead th:last-child {
+    width: 44px;
+    text-align: center;
+}
+
+.gs-table tbody tr {
+    transition: background 0.15s;
+}
+
+.gs-table tbody tr:nth-child(odd) {
+    background: #f4fbf4;
+}
+
+.gs-table tbody tr:nth-child(even) {
+    background: #ffffff;
+}
+
+.gs-table tbody tr:hover {
+    background: #dff0df;
+}
+
+.gs-table tbody td {
+    padding: 10px 12px;
+    color: #1a3d1f;
+    font-weight: 600;
+    border-bottom: 1px solid #eaf5ea;
+}
+
+.gs-table tbody td:first-child {
+    text-align: center;
+    color: #4a7a50;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.gs-table tbody td:last-child {
+    text-align: center;
+}
+
+/* Empty state */
+.gs-table tbody .gs-empty-row td {
+    text-align: center;
+    padding: 24px;
+    color: #9abf9c;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* ── Delete button ── */
+.gs-btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.gs-btn-delete img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+}
+
+.gs-btn-delete:hover {
+    background: #fdecea;
+    transform: scale(1.1);
+}
+
+.gs-btn-delete:active {
+    transform: scale(0.95);
+}
+
+/* ── Add-new row ── */
+.gs-add-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gs-add-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2a5c30;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.gs-add-label::before {
+    content: '+';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #2a5c30;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.gs-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid #c8e6c9;
+    border-radius: 7px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13.5px;
+    color: #1a3d1f;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.gs-input:focus {
+    border-color: #2a5c30;
+    box-shadow: 0 0 0 3px rgba(42, 92, 48, 0.12);
+}
+
+.gs-input::placeholder {
+    color: #b0c8b2;
+}
+
+/* ── Save button ── */
+.gs-btn-save {
+    align-self: flex-end;
+    padding: 9px 22px;
+    background: #1a3d1f;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.gs-btn-save:hover {
+    background: #2a5c30;
+    transform: translateY(-1px);
+}
+
+.gs-btn-save:active {
+    transform: translateY(0);
+}
+
+/* ── Toast notification ── */
+.gs-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 28px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.gs-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gs-toast.success { background: #2a5c30; }
+.gs-toast.error   { background: #c0392b; }
+
+/* ── Inline panel alert ── */
+.gs-alert {
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    display: none;
+    line-height: 1.4;
+}
+
+.gs-alert.success {
+    background: #d4edda;
+    color: #1a3d1f;
+    border: 1px solid #b2cfb5;
+    display: block;
+}
+
+.gs-alert.error {
+    background: #fde8e8;
+    color: #c0392b;
+    border: 1px solid #f0b8b8;
+    display: block;
+}
+
+/* ── Input error state ── */
+.gs-input--error {
+    border-color: #c0392b !important;
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12) !important;
+    background: #fff8f8 !important;
+}
+
+/* ── Input inline error message ── */
+.gs-input-error {
+    display: none;
+    font-size: 0.72rem;
+    color: #c0392b;
+    font-family: 'Source Sans 3', sans-serif;
+    padding-left: 2px;
+    line-height: 1.3;
+    margin-top: -4px;
+}
