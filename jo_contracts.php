@@ -17,8 +17,6 @@ try {
 } catch (PDOException $e) {
     // error_log($e->getMessage());
 }
-
-/* ── Helper: format date m/d/y ── */
 function fmt_date($d) {
     if (!$d) return '—';
     $ts = strtotime($d);

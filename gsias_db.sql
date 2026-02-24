@@ -32,7 +32,7 @@ CREATE TABLE `admin_creds` (
   `admin_user` varchar(20) NOT NULL,
   `admin_pass` varchar(255) NOT NULL,
   `admin_image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `admin_creds`
@@ -50,7 +50,7 @@ INSERT INTO `admin_creds` (`admin_name`, `admin_user`, `admin_pass`, `admin_imag
 CREATE TABLE `designation_list` (
   `d_id` smallint(6) NOT NULL,
   `d_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `designation_list`
@@ -81,7 +81,7 @@ INSERT INTO `designation_list` (`d_id`, `d_name`) VALUES
 CREATE TABLE `funding_charges_list` (
   `fc_id` tinyint(4) NOT NULL,
   `fc_name` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `funding_charges_list`
@@ -107,7 +107,7 @@ CREATE TABLE `jo_contracts` (
   `funding_charges` varchar(30) NOT NULL,
   `ref_folder` varchar(100) NOT NULL,
   `ref_file` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables

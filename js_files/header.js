@@ -1,7 +1,3 @@
-/**
- * header.js — GSIAS Live Clock & Date
- * Updates #header-time and #header-date every second.
- */
 
 (function () {
     "use strict";
@@ -46,9 +42,6 @@
         return `${dayName}, ${month} ${day}, ${year}`;
     }
 
-    /**
-     * Tick — update DOM elements with current time & date.
-     */
     function tick() {
         const now      = new Date();
         const timeEl   = document.getElementById("header-time");
@@ -58,7 +51,6 @@
         if (dateEl) dateEl.textContent = formatDate(now);
     }
 
-    // Run immediately on load, then every second
     tick();
     setInterval(tick, 1000);
 
