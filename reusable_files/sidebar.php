@@ -48,6 +48,18 @@ $settingsActive = in_array($currentPage, $settingsPages);
                     <?php endif; ?>
                 </a>
             </li>
+              <!-- Job Order Payroll -->
+            <li class="nav-item <?= in_array($currentPage, ['payment_index_add.php', 'jo_contract_reg.php']) ? 'active' : '' ?>">
+                <a href="payment_index_add.php" class="nav-link">
+                    <span class="nav-icon">
+                        <img src="assets/icons/jo_contracts_icon.png" alt="Job Order Contracts">
+                    </span>
+                    <span class="nav-label">Job Order Payroll</span>
+                    <?php if (in_array($currentPage, ['payment_index_add.php', 'jo_contract_reg.php'])): ?>
+                        <span class="nav-active-bar"></span>
+                    <?php endif; ?>
+                </a>
+            </li>
 
             <!-- Settings (Dropdown) -->
             <li class="nav-item has-dropdown <?= $settingsActive ? 'open parent-active' : '' ?>"

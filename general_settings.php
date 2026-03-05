@@ -23,21 +23,40 @@ function findMysqldump() {
 
 function getDbCredentials() {
     $creds = ['host' => 'localhost', 'dbname' => '', 'user' => 'root', 'pass' => ''];
-    $config_file = __DIR__ . '/reusable_files/db_connect.php';
-    if (!file_exists($config_file)) return $creds;
 
-    $src = file_get_contents($config_file);
+    // Try $_ENV first (already loaded by load_env.php)
+    if (!empty($_ENV['DB_NAME'])) {
+        $creds['host']   = $_ENV['DB_HOST']  ?? 'localhost';
+        $creds['dbname'] = $_ENV['DB_NAME']  ?? '';
+        $creds['user']   = $_ENV['DB_USER']  ?? 'root';
+        $creds['pass']   = $_ENV['DB_PASS']  ?? '';
+        return $creds;
+    }
 
-    if (preg_match("/define\s*\(\s*'DB_HOST'\s*,\s*'([^']+)'/", $src, $m)) $creds['host']   = $m[1];
-    if (preg_match("/define\s*\(\s*'DB_NAME'\s*,\s*'([^']+)'/", $src, $m)) $creds['dbname'] = $m[1];
-    if (preg_match("/define\s*\(\s*'DB_USER'\s*,\s*'([^']+)'/", $src, $m)) $creds['user']   = $m[1];
-    if (preg_match("/define\s*\(\s*'DB_PASS'\s*,\s*'([^']*)'/", $src, $m)) $creds['pass']   = $m[1];
+    // Fallback: manually parse the .env file
+    $env_file = __DIR__ . '/../.env';
+    if (!file_exists($env_file)) return $creds;
 
-    if (!$creds['dbname']) {
-        if (preg_match('/define\s*\(\s*"DB_HOST"\s*,\s*"([^"]+)"/', $src, $m)) $creds['host']   = $m[1];
-        if (preg_match('/define\s*\(\s*"DB_NAME"\s*,\s*"([^"]+)"/', $src, $m)) $creds['dbname'] = $m[1];
-        if (preg_match('/define\s*\(\s*"DB_USER"\s*,\s*"([^"]+)"/', $src, $m)) $creds['user']   = $m[1];
-        if (preg_match('/define\s*\(\s*"DB_PASS"\s*,\s*"([^"]*)"/', $src, $m)) $creds['pass']   = $m[1];
+    foreach (file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+        if ($line === '' || str_starts_with($line, '#')) continue;
+        if (!str_contains($line, '=')) continue;
+
+        [$key, $value] = explode('=', $line, 2);
+        $key   = trim($key);
+        $value = trim($value);
+
+        // Strip inline comments and surrounding quotes
+        $value = preg_replace('/\s+#.*$/', '', $value);
+        $value = trim($value, '"\'');
+
+        match ($key) {
+            'DB_HOST' => $creds['host']   = $value,
+            'DB_NAME' => $creds['dbname'] = $value,
+            'DB_USER' => $creds['user']   = $value,
+            'DB_PASS' => $creds['pass']   = $value,
+            default   => null,
+        };
     }
 
     return $creds;
@@ -247,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
 $designations    = $conn->query("SELECT `d_id`, `d_name` FROM `designation_list` ORDER BY `d_id` ASC")->fetchAll();
 $funding_charges = $conn->query("SELECT `fc_id`, `fc_name` FROM `funding_charges_list` ORDER BY `fc_id` ASC")->fetchAll();
-$ref_folders     = $conn->query("SELECT `jo_id`, `ref_folder` FROM `jo_contracts` ORDER BY `jo_id` ASC LIMIT 1")->fetchAll();
+$ref_folders = $conn->query("SELECT MIN(`jo_id`) as `jo_id`, `ref_folder` FROM `jo_contracts` GROUP BY `ref_folder` ORDER BY `ref_folder` DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
