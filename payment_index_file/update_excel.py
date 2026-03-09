@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-update_excel.py  --  payroll Excel generator
+python_files/update_excel.py  --  payroll Excel generator
 """
 
 import sys, json, os
@@ -12,16 +12,20 @@ except ImportError:
     print("openpyxl not installed. Run: py -m pip install openpyxl")
     sys.exit(1)
 
-EXCEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "payroll.xlsx")
+EXCEL_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "..",                                        
+    "payment_index_file",
+    "payroll.xlsx"
+)
+EXCEL_PATH = os.path.normpath(EXCEL_PATH)
 
-# ── Layout constants ──────────────────────────────────────────────
-COL_OFFSET  = 0      # No left-side padding column — tables start at column A
-ROW_START   = 1      # First table begins at row 1
-GAP_ROWS    = 19     # Blank rows between end of one table and start of the next
+COL_OFFSET  = 0
+ROW_START   = 1
+GAP_ROWS    = 19
 MAX_PERIODS = 13
 HDR_ROWS    = 5
 
-# ── Column indices (all start at A now that COL_OFFSET = 0) ──────
 C_PERIOD  = 1  + COL_OFFSET   # A
 C_DAYS    = 2  + COL_OFFSET   # B
 C_RATE    = 3  + COL_OFFSET   # C
@@ -37,7 +41,6 @@ C_AMTDUE  = 11 + COL_OFFSET   # K
 MONTH_NAMES = ["jan", "feb", "mar", "apr", "may", "jun",
                "jul", "aug", "sep", "oct", "nov", "dec"]
 
-# ── Style helpers ─────────────────────────────────────────────────
 def T(style="thin"): return Side(style=style)
 def N():             return Side(style=None)
 def ba():            return Border(left=T(), right=T(), top=T(), bottom=T())
@@ -59,7 +62,6 @@ LG = col_letter(C_WAGE)
 LE = col_letter(C_LBP)
 LJ = col_letter(C_NURSERY)
 
-# ── Period text formatter ─────────────────────────────────────────
 def format_period_text(text):
     if not text:
         return ""
@@ -69,7 +71,6 @@ def format_period_text(text):
         text = text.replace(" & ", " &\n")
     return "\n" + text + "\n"
 
-# ── Month helpers ─────────────────────────────────────────────────
 def extract_month(period_label):
     label = period_label.strip().lower()
     for i, m in enumerate(MONTH_NAMES):
@@ -87,7 +88,6 @@ def month_sort_key(entry):
         else:              sub_sort = 3
     return (m if m >= 0 else 99, sub_sort, p)
 
-# ── Sheet / column setup ─────────────────────────────────────────
 def set_col_widths(ws):
     widths = {
         C_PERIOD: 12, C_DAYS: 8,  C_RATE: 10, C_WAGE: 12,
@@ -104,38 +104,19 @@ def get_sheet(wb, year_str):
     set_col_widths(ws)
     return ws
 
-# ── Block finder ─────────────────────────────────────────────────
 def find_block(ws, name):
-    """
-    Find the starting row of an existing person block.
-    The block header row has "NAME" in C_PERIOD and the person's name in C_DAYS.
-    """
     name_upper = name.strip().upper()
     for row_cells in ws.iter_rows():
         for cell in row_cells:
             if not isinstance(cell.value, str):
                 continue
             if cell.value.strip().upper() == name_upper:
-                # The name cell is at C_DAYS; check that C_PERIOD on the same row == "NAME"
                 left = ws.cell(row=cell.row, column=C_PERIOD)
                 if isinstance(left.value, str) and left.value.strip().upper() == "NAME":
                     return cell.row
     return None
 
-# ── Next free row calculation ────────────────────────────────────
-def block_height():
-    """Total rows consumed by one complete block (headers + data rows)."""
-    return HDR_ROWS + MAX_PERIODS  # = 5 + 13 = 18
-
 def next_free_row(ws):
-    """
-    Return the row where the next new block should start.
-
-    Rules:
-    - If the sheet is empty, start at ROW_START.
-    - Otherwise find the last occupied row across all data columns,
-      then add GAP_ROWS (19) blank rows after it.
-    """
     last_used = 0
     for r in range(ws.max_row, 0, -1):
         vals = [ws.cell(row=r, column=c).value
@@ -143,26 +124,20 @@ def next_free_row(ws):
         if any(v not in (None, "") for v in vals):
             last_used = r
             break
-
     if last_used == 0:
         return ROW_START
-
-    # last_used is the last row with content; next block starts GAP_ROWS later
     return last_used + GAP_ROWS + 1
 
-# ── Block writer ─────────────────────────────────────────────────
 def write_block(ws, start_row, name, designation, year):
     r = start_row
     s = T()
 
-    # Row 1 of block — Name / Designation header
     rh(ws, r, 30)
     c = ws.cell(row=r, column=C_PERIOD, value="Name")
     c.border    = ba()
     c.alignment = AL("left", "top")
 
-    ws.merge_cells(start_row=r, start_column=C_DAYS,
-                   end_row=r, end_column=C_WAGE)
+    ws.merge_cells(start_row=r, start_column=C_DAYS, end_row=r, end_column=C_WAGE)
     for col in range(C_DAYS, C_WAGE + 1):
         ws.cell(row=r, column=col).border = ba()
     c = ws.cell(row=r, column=C_DAYS, value=name.upper())
@@ -173,11 +148,7 @@ def write_block(ws, start_row, name, designation, year):
     c.border    = ba()
     c.alignment = AL("left", "top")
 
-    # Designation merges C_PCONT→C_LATE (wide cell), then C_NURSERY and C_AMTDUE
-    # are separate bordered empty cells — this creates the divider line aligned
-    # with the Late Deduction / Nursery Product column boundary below.
-    ws.merge_cells(start_row=r, start_column=C_PCONT,
-                   end_row=r, end_column=C_LATE)
+    ws.merge_cells(start_row=r, start_column=C_PCONT, end_row=r, end_column=C_LATE)
     for col in range(C_PCONT, C_LATE + 1):
         left_side  = T() if col == C_PCONT else N()
         right_side = T() if col == C_LATE  else N()
@@ -187,13 +158,11 @@ def write_block(ws, start_row, name, designation, year):
     c = ws.cell(row=r, column=C_PCONT, value=designation)
     c.font      = Fnt()
     c.alignment = AL("center", "center", True)
-    # Separate cells to the right — no value, just borders to complete the row
     ws.cell(row=r, column=C_NURSERY).border = Border(left=T(), right=N(), top=T(), bottom=T())
     ws.cell(row=r, column=C_AMTDUE).border  = Border(left=N(), right=T(), top=T(), bottom=T())
 
     r += 1
 
-    # Rows 2-3 — Annual Salary / Effective Date
     for i in range(2):
         rh(ws, r, 18)
         ws.merge_cells(start_row=r, start_column=C_PERIOD, end_row=r, end_column=C_WAGE)
@@ -202,8 +171,7 @@ def write_block(ws, start_row, name, designation, year):
             lb = s if col in (C_PERIOD, C_LBP)   else N()
             rb = s if col in (C_WAGE,   C_AMTDUE) else N()
             bb = s if i == 1 else N()
-            ws.cell(row=r, column=col).border = Border(
-                left=lb, right=rb, top=N(), bottom=bb)
+            ws.cell(row=r, column=col).border = Border(left=lb, right=rb, top=N(), bottom=bb)
         if i == 0:
             ws.cell(row=r, column=C_PERIOD, value="Annual Salary").font  = Fnt()
             ws.cell(row=r, column=C_LBP,    value="Effective Date of Appointment").font = Fnt()
@@ -211,7 +179,6 @@ def write_block(ws, start_row, name, designation, year):
             ws.cell(row=r, column=C_PERIOD, value=str(year)).font = Fnt()
         r += 1
 
-    # Rows 4-5 — Column headers (spanning two rows)
     r4, r5 = r, r + 1
     rh(ws, r4, 22)
     rh(ws, r5, 18)
@@ -228,16 +195,14 @@ def write_block(ws, start_row, name, designation, year):
         C_AMTDUE:  "AMOUNT\nDUE",
     }
     for col, label in span_cols.items():
-        ws.merge_cells(start_row=r4, start_column=col,
-                       end_row=r5,   end_column=col)
+        ws.merge_cells(start_row=r4, start_column=col, end_row=r5, end_column=col)
         c = ws.cell(row=r4, column=col, value=label)
         c.font      = Fnt(True, 8)
         c.alignment = AL("center", wrap=True)
         c.border    = ba()
         ws.cell(row=r5, column=col).border = ba()
 
-    ws.merge_cells(start_row=r4, start_column=C_PCONT,
-                   end_row=r4,   end_column=C_PMPL)
+    ws.merge_cells(start_row=r4, start_column=C_PCONT, end_row=r4, end_column=C_PMPL)
     c = ws.cell(row=r4, column=C_PCONT, value="Pag-ibig")
     c.font      = Fnt(True, 8)
     c.alignment = AL("center")
@@ -249,14 +214,12 @@ def write_block(ws, start_row, name, designation, year):
         c.alignment = AL("center")
         c.border    = ba()
 
-    r += 2  # skip r4 and r5
+    r += 2
 
-    # Data rows (MAX_PERIODS empty slots)
     for _ in range(MAX_PERIODS):
         _write_empty_period_row(ws, r)
         r += 1
 
-# ── Data row helpers ─────────────────────────────────────────────
 def _write_empty_period_row(ws, r):
     for col in range(C_PERIOD, C_AMTDUE + 1):
         c = ws.cell(row=r, column=col)
@@ -290,10 +253,8 @@ def _write_data_row(ws, r, period, days, rate, lbp, pcont, pmpl, sss, late, nurs
     ws.cell(row=r, column=C_SSS,     value=sss)
     ws.cell(row=r, column=C_LATE,    value=late)
     ws.cell(row=r, column=C_NURSERY, value=nursery)
-    # Taller row when the padded text wraps to multiple visible lines
     rh(ws, r, 35 if final_text.count("\n") >= 3 else 25)
 
-# ── Period read / fill ────────────────────────────────────────────
 def read_period_rows(ws, block_start_row):
     first_data_row = block_start_row + HDR_ROWS
     rows = []
@@ -354,7 +315,6 @@ def fill_period(ws, block_row, period, record, rate):
         else:
             _write_empty_period_row(ws, r)
 
-# ── Entry point ───────────────────────────────────────────────────
 def main():
     if len(sys.argv) < 2:
         sys.exit(1)

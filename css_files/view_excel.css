@@ -1,0 +1,97 @@
+
+.pi-name-wrap {
+    position: relative;
+}
+
+#veNameDropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #c8e0c8;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(26,61,31,0.13);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 500;
+    list-style: none;
+    padding: 4px 0;
+}
+
+#veNameDropdown .ve-dd-item {
+    padding: 8px 14px;
+    font-size: 0.84rem;
+    cursor: pointer;
+    color: #1a2e1c;
+    transition: background 0.12s;
+}
+
+#veNameDropdown .ve-dd-item:hover,
+#veNameDropdown .ve-dd-item.active {
+    background: #e8f5e9;
+}
+
+#veNameDropdown .ve-dd-item mark {
+    background: #b9f0c0;
+    color: #1a3d1f;
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+#veNameDropdown .ve-dd-empty {
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #999;
+    font-style: italic;
+}
+
+/* ── Tables ── */
+.ve-table-wrap {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #c8e0c8;
+}
+
+.ve-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    background: #fff;
+}
+
+.ve-table thead th {
+    background: #1a3d1f;
+    color: #fff;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ve-table tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.ve-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ve-table tbody tr:hover {
+    background: #f9fff9;
+}
+
+.ve-table .td-amt {
+    font-weight: 700;
+    color: #1a3d1f;
+}
+
+/* ── Fix results area flex ── */
+#resultsArea {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
