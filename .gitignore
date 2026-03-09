@@ -1,3 +1,3 @@
 .env
-payment_index_file/payroll.xlsx
-JO_Contract_files/payroll.xlsx
+payment_index_file/*
+JO_Contract_files/*
