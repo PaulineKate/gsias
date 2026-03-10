@@ -26,7 +26,7 @@ function showConfirm(message, onConfirm) {
         'font-family:\'Source Sans 3\',sans-serif;animation:gsFadeIn 0.2s ease;';
 
     box.innerHTML =
-        '<div style="font-size:2rem;margin-bottom:10px;">⚠️</div>' +
+        '<div style="font-size:2rem;margin-bottom:10px;">!</div>' +
         '<p style="color:#1a2e1c;font-size:0.92rem;line-height:1.65;margin-bottom:24px;">' +
             message +
         '</p>' +
@@ -81,7 +81,7 @@ function showConfirmDanger(message, onConfirm) {
         '<p style="background:#fff3f3;border:1px solid #f0b8b8;border-radius:8px;' +
             'padding:10px 14px;font-size:0.82rem;color:#c0392b;font-weight:600;' +
             'margin-bottom:24px;line-height:1.5;">' +
-            '⚠️ Deleting this folder will remove all registered personnel related to it.' +
+            '! Deleting this folder will remove all registered personnel related to it.' +
         '</p>' +
         '<div style="display:flex;gap:12px;justify-content:center;">' +
             '<button id="gsCancelBtn"' +
@@ -436,13 +436,13 @@ function runManualBackup() {
                     }
 
                     if (!data.success) {
-                        showAlert('manual-backup-alert', '❌ ' + (data.message || 'Backup failed.'), 'error');
+                        showAlert('manual-backup-alert', 'X' + (data.message || 'Backup failed.'), 'error');
                         return;
                     }
 
-                    let msg = '✅ Backup created: <strong>' + escapeHtml(data.zip_name) + '</strong> (' + data.size_kb + ' KB)';
+                    let msg = 'Backup created: <strong>' + escapeHtml(data.zip_name) + '</strong> (' + data.size_kb + ' KB)';
                     if (!data.sql_ok) {
-                        msg += '<br><span style="color:#c0392b;font-size:0.78rem;">⚠️ Database dump failed — check mysqldump. PDFs were still backed up.</span>';
+                        msg += '<br><span style="color:#c0392b;font-size:0.78rem;">! Database dump failed — check mysqldump. PDFs were still backed up.</span>';
                     }
 
                     showBackupSuccess(data);
@@ -471,15 +471,15 @@ function showBackupSuccess(data) {
         'display:flex;align-items:center;justify-content:center;';
 
     const sqlStatus = data.sql_ok
-        ? '<span style="color:#2a5c30;">✅ Database dump</span>'
-        : '<span style="color:#c0392b;">⚠️ Database dump failed</span>';
+        ? '<span style="color:#2a5c30;">Database dump</span>'
+        : '<span style="color:#c0392b;">Database dump failed</span>';
 
     overlay.innerHTML =
         '<div style="background:#fff;border-radius:14px;padding:32px 36px;max-width:440px;width:92%;' +
             'box-shadow:0 8px 40px rgba(26,61,31,0.22);text-align:center;' +
             'font-family:\'Source Sans 3\',sans-serif;animation:gsFadeIn 0.2s ease;' +
             'border-top:4px solid #2a5c30;">' +
-            '<div style="font-size:2.4rem;margin-bottom:8px;">📦</div>' +
+            '<div style="font-size:2.4rem;margin-bottom:8px;"></div>' +
             '<div style="font-family:\'Barlow\',sans-serif;font-size:15px;font-weight:800;' +
                 'text-transform:uppercase;color:#1a3d1f;letter-spacing:0.4px;margin-bottom:16px;">Backup Complete</div>' +
             '<div style="background:#f4fbf4;border:1px solid #c8e6c9;border-radius:10px;padding:14px 18px;' +
@@ -487,6 +487,7 @@ function showBackupSuccess(data) {
                 '<div><strong>File:</strong> ' + escapeHtml(data.zip_name) + '</div>' +
                 '<div><strong>Size:</strong> ' + data.size_kb + ' KB</div>' +
                 '<div><strong>PDFs backed up:</strong> ' + data.pdf_count + ' file(s)</div>' +
+                '<div><strong>Payment index files backed up:</strong> ' + data.payment_count + ' file(s)</div>' +
                 '<div><strong>Database:</strong> ' + sqlStatus + '</div>' +
                 (data.dump_error ? '<div style="font-size:0.75rem;color:#c0392b;margin-top:4px;">Error: ' + escapeHtml(data.dump_error.substring(0, 120)) + '</div>' : '') +
             '</div>' +

@@ -4,6 +4,7 @@ include 'reusable_files/db_connect.php';
 
 function findMysqldump() {
     $candidates = [
+        'C:/laragon/bin/mysql/mysql-8.4.3-winx64/bin/mysqldump.exe',
         'C:/xampp/mysql/bin/mysqldump.exe',
         'C:/wamp64/bin/mysql/mysql8.0/bin/mysqldump.exe',
         'C:/wamp64/bin/mysql/mysql8.1/bin/mysqldump.exe',
@@ -141,7 +142,7 @@ function runBackup($conn, $dest_dir) {
     $sql_str = $sql_ok ? file_get_contents($tmp_sql)
                        : "mysqldump failed (exit $dump_code).\n" . implode("\n", $dump_output);
     if (file_exists($tmp_sql)) @unlink($tmp_sql);
-    $jo_dir    = rtrim(__DIR__ . '/JO_Contract_files', '/\\') . DIRECTORY_SEPARATOR;
+     $jo_dir    = rtrim(__DIR__ . '/JO_Contract_files', '/\\') . DIRECTORY_SEPARATOR;
     $pdf_count = 0;
     $zip_files = [];
     $zip_files[] = ['name' => 'database/gsias_db_' . $timestamp . '.sql', 'data' => $sql_str];
@@ -156,9 +157,26 @@ function runBackup($conn, $dest_dir) {
                 str_replace('\\', '/', substr($real, strlen($jo_dir))),
                 '/'
             );
-
             $zip_files[] = ['name' => $relative, 'data' => file_get_contents($real)];
             $pdf_count++;
+        }
+    }
+
+    $payment_dir = rtrim(__DIR__ . '/payment_index_file', '/\\') . DIRECTORY_SEPARATOR;
+    $payment_count = 0;
+
+    if (is_dir($payment_dir)) {
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($payment_dir, RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+        foreach ($iter as $file) {
+            $real = $file->getRealPath();
+            $relative = 'payment_index_file/' . ltrim(
+                str_replace('\\', '/', substr($real, strlen($payment_dir))),
+                '/'
+            );
+            $zip_files[] = ['name' => $relative, 'data' => file_get_contents($real)];
+            $payment_count++;
         }
     }
     $zip_ok = false;
@@ -186,14 +204,15 @@ function runBackup($conn, $dest_dir) {
     }
 
     return [
-        'success'    => true,
-        'zip_name'   => $zip_name,
-        'zip_path'   => $zip_path,
-        'size_kb'    => round(filesize($zip_path) / 1024, 1),
-        'sql_ok'     => $sql_ok,
-        'pdf_count'  => $pdf_count,
-        'method'     => $method,
-        'dump_error' => $sql_ok ? null : implode(' | ', $dump_output),
+        'success'        => true,
+        'zip_name'       => $zip_name,
+        'zip_path'       => $zip_path,
+        'size_kb'        => round(filesize($zip_path) / 1024, 1),
+        'sql_ok'         => $sql_ok,
+        'pdf_count'      => $pdf_count,
+        'payment_count'  => $payment_count,
+        'method'         => $method,
+        'dump_error'     => $sql_ok ? null : implode(' | ', $dump_output),
     ];
 }
 
@@ -423,9 +442,9 @@ $ref_folders = $conn->query("SELECT MIN(`jo_id`) as `jo_id`, `ref_folder` FROM `
 
                             <div class="gs-backup-includes">
                                 <span class="gs-includes-label">Includes:</span>
-                                <span class="gs-includes-tag">🗄️ Database (.sql)</span>
-                                <span class="gs-includes-tag">📄 PDFs</span>
-                                <span class="gs-includes-tag">📦 One .zip file</span>
+                                <span class="gs-includes-tag">Database (.sql)</span>
+                                <span class="gs-includes-tag">PDFs</span>
+                                <span class="gs-includes-tag">One .zip file</span>
                             </div>
 
                             <div class="gs-backup-dir-row">
