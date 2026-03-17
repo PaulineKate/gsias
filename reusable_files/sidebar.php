@@ -3,7 +3,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 // Pages that belong under the Settings dropdown
 $settingsPages = ['account_settings.php', 'general_settings.php'];
+$payrollPages = ['regular_employee_payroll.php', 'payment_index_add.php', 'regular_employee_payroll_add.php', 'view_excel.php'];
 $settingsActive = in_array($currentPage, $settingsPages);
+$payrollActive = in_array($currentPage, $payrollPages);
 ?>
 
 <link rel="stylesheet" href="../css_files/sidebar.css">
@@ -36,6 +38,18 @@ $settingsActive = in_array($currentPage, $settingsPages);
                 </a>
             </li>
 
+             <li class="nav-item <?= in_array($currentPage, ['regular_employees.php', 'regular_employees_add.php']) ? 'active' : '' ?>">
+                <a href="regular_employees.php" class="nav-link">
+                    <span class="nav-icon">
+                        <img src="assets/icons/employee_list_icon.png" alt="Job Order Contracts">
+                    </span>
+                    <span class="nav-label">Regular Employee List</span>
+                    <?php if (in_array($currentPage, ['regular_employees.php', 'regular_employees_add.php'])): ?>
+                        <span class="nav-active-bar"></span>
+                    <?php endif; ?>
+                </a>
+            </li>
+
             <!-- Job Order Contracts -->
             <li class="nav-item <?= in_array($currentPage, ['jo_contracts.php', 'jo_contract_reg.php']) ? 'active' : '' ?>">
                 <a href="jo_contracts.php" class="nav-link">
@@ -48,23 +62,39 @@ $settingsActive = in_array($currentPage, $settingsPages);
                     <?php endif; ?>
                 </a>
             </li>
-              <!-- Job Order Payroll -->
-            <li class="nav-item <?= in_array($currentPage, ['payment_index_add.php', 'view_excel.php']) ? 'active' : '' ?>">
-                <a href="payment_index_add.php" class="nav-link">
+              <!--Payroll -->
+            <li class="nav-item has-dropdown <?= $payrollPages ? 'open parent-active' : '' ?>"
+                id="payroll-dropdown">
+                <a href="#" class="nav-link" onclick="toggleDropdownpayroll(event, 'payroll-dropdown')">
                     <span class="nav-icon">
-                        <img src="assets/icons/payroll_icon.png" alt="Job Order Contracts">
+                        <img src="assets/icons/payroll_icon.png" alt="Payroll Management">
                     </span>
-                    <span class="nav-label">Job Order Payroll</span>
-                    <?php if (in_array($currentPage, ['payment_index_add.php', 'view_excel.php'])): ?>
-                        <span class="nav-active-bar"></span>
-                    <?php endif; ?>
+                    <span class="nav-label">Payroll Management</span>
                 </a>
-            </li>
 
+                <ul class="nav-dropdown">
+                    <li class="nav-sub-item <?= in_array($currentPage, ['regular_employee_payroll.php', 'regular_employee_payroll_add.php']) ? 'active' : '' ?>">
+                        <a href="regular_employee_payroll.php" class="nav-sub-link">
+                            Regular Employee Payroll
+                            <?php if ($currentPage === 'regular_employee_payroll.php'): ?>
+                                <span class="nav-sub-active-bar"></span>
+                            <?php endif; ?>
+                        </a>
+                    </li>
+                    <li class="nav-sub-item <?= in_array($currentPage, ['payment_index_add.php', 'view_excel.php']) ? 'active' : '' ?>">
+                        <a href="payment_index_add.php" class="nav-sub-link">
+                            Job Order Payroll
+                            <?php if ($currentPage === 'payment_index_add.php'): ?>
+                                <span class="nav-sub-active-bar"></span>
+                            <?php endif; ?>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <!-- Settings (Dropdown) -->
             <li class="nav-item has-dropdown <?= $settingsActive ? 'open parent-active' : '' ?>"
                 id="settings-dropdown">
-                <a href="#" class="nav-link" onclick="toggleDropdown(event, 'settings-dropdown')">
+                <a href="#" class="nav-link" onclick="toggleDropdownsettings(event, 'settings-dropdown')">
                     <span class="nav-icon">
                         <img src="assets/icons/settings_icon.png" alt="Settings">
                     </span>
@@ -106,7 +136,12 @@ $settingsActive = in_array($currentPage, $settingsPages);
 </aside>
 
 <script>
-function toggleDropdown(e, id) {
+function toggleDropdownsettings(e, id) {
+    e.preventDefault();
+    const item = document.getElementById(id);
+    item.classList.toggle('open');
+}
+function toggleDropdownpayroll(e, id) {
     e.preventDefault();
     const item = document.getElementById(id);
     item.classList.toggle('open');
