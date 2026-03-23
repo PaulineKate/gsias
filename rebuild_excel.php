@@ -96,7 +96,7 @@ $sql = "
         d.late_deduction,
         d.nursery_prod,
         pi.total_amount_due
-    FROM payment_index pi
+    FROM jo_payment_index pi
     LEFT JOIN jo_contracts jc ON pi.jo_id   = jc.jo_id
     LEFT JOIN deductions   d  ON pi.deduct_id = d.deduct_id
     ORDER BY jc.name ASC, pi.payindex_id ASC

@@ -6,7 +6,8 @@ include 'reusable_files/db_connect.php';
 $reg_records = [];
 
 try {
-    $sql = "SELECT `emp_id`, `emp_name`, `emp_designation`, `salary`, `department`, `emp_status` FROM `reg_employee_info` ORDER BY emp_id DESC";
+    $sql = "SELECT `emp_id`, CONCAT(last_name, ', ', first_name, ' ', SUBSTR(middle_name, 1, 1), '.') as full_name, `emp_designation`, `salary`, `department`, 
+    `sss_num`, `philhealth_num`, `tin_num`, `gsis_num`, `pagibig_num`, `emp_standing`, `emp_status` FROM `employee_info`WHERE emp_standing = 'regular' ORDER BY emp_id DESC";
 
     $stmt       = $conn->query($sql);
     $reg_records = $stmt->fetchAll();
@@ -123,7 +124,11 @@ try {
                                 <th>Position</th>
                                 <th>Salary</th>
                                 <th>Department</th>
-                                <th>Employment Status</th>
+                                <th>SSS No.</th>
+                                <th>Philhealth No.</th>
+                                <th>Tin No.</th>
+                                <th>GSIS No.</th>
+                                <th>Pag-ibig No.</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -134,13 +139,17 @@ try {
                                 <?php foreach ($reg_records as $row) : ?>
                                 <tr class="reg-data-row">
                                     <td><?= htmlspecialchars($row['emp_id']) ?></td>
-                                    <td><?= htmlspecialchars($row['emp_name']) ?></td>
+                                    <td><?= htmlspecialchars($row['full_name']) ?></td>
                                     <td><?= htmlspecialchars($row['emp_designation']) ?></td>
                                     <td><?= number_format((float)$row['salary'], 2) ?></td>
                                     <td><?= htmlspecialchars($row['department']) ?></td>
-                                    <td><?= $row['emp_status'] ? 'Active' : 'Inactive' ?></td>
+                                    <td><?= htmlspecialchars($row['sss_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['philhealth_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['tin_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['gsis_num']) ?></td>
+                                    <td><?= htmlspecialchars($row['pagibig_num']) ?></td>
                                     <td>
-                                        <button type="button" class="btn-unavailable" onclick="noFileAlert(this)">
+                                        <button type="button" class="btn-view-details" onclick="noFileAlert(this)">
                                             pending
                                         </button>
                                     </td>

@@ -37,8 +37,8 @@ $payrollActive = in_array($currentPage, $payrollPages);
                     <?php endif; ?>
                 </a>
             </li>
-
-             <li class="nav-item <?= in_array($currentPage, ['regular_employees.php', 'regular_employees_add.php']) ? 'active' : '' ?>">
+            <!-- Regular Employee List -->
+             <li class="nav-item <?= in_array($currentPage, ['regular_employees.php', 'regular_employee_add.php']) ? 'active' : '' ?>">
                 <a href="regular_employees.php" class="nav-link">
                     <span class="nav-icon">
                         <img src="assets/icons/employee_list_icon.png" alt="Job Order Contracts">
@@ -63,7 +63,7 @@ $payrollActive = in_array($currentPage, $payrollPages);
                 </a>
             </li>
               <!--Payroll -->
-            <li class="nav-item has-dropdown <?= $payrollPages ? 'open parent-active' : '' ?>"
+            <li class="nav-item has-dropdown <?= $payrollActive ? 'open parent-active' : '' ?>"
                 id="payroll-dropdown">
                 <a href="#" class="nav-link" onclick="toggleDropdownpayroll(event, 'payroll-dropdown')">
                     <span class="nav-icon">

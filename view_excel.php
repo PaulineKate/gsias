@@ -23,7 +23,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'get_names') {
     $stmt = $conn->prepare(
         "SELECT DISTINCT jc.name
          FROM jo_contracts jc
-         INNER JOIN payment_index pi ON jc.jo_id = pi.jo_id
+         INNER JOIN jo_payment_index pi ON jc.jo_id = pi.jo_id
          WHERE YEAR(jc.date_to) = :yr
          ORDER BY jc.name ASC"
     );
@@ -44,9 +44,9 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'get_details') {
              pi.period_covered, pi.num_days, jc.rate, pi.total_wage,
              d.lbp, d.pagibig_cont, d.pagibig_mpl, d.sss_cont,
              d.late_deduction, d.nursery_prod, pi.total_amount_due
-         FROM payment_index pi
+         FROM jo_payment_index pi
          LEFT JOIN jo_contracts jc ON pi.jo_id = jc.jo_id
-         LEFT JOIN deductions d ON pi.deduct_id = d.deduct_id
+         LEFT JOIN jo_deductions d ON pi.deduct_id = d.deduct_id
          WHERE jc.name = :name AND YEAR(jc.date_to) = :yr
          ORDER BY pi.payindex_id ASC"
     );

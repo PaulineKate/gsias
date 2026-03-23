@@ -243,3 +243,20 @@
     padding: 24px 0;
     background: #fff;
 }
+.btn-view-details {
+    display: inline-block;
+    color: #2a5c30;
+    font-weight: 700;
+    font-size: 0.70rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: color 0.15s;
+}
+.btn-view-details:hover{
+    color: #1a3d1f;
+    text-decoration: underline;
+}

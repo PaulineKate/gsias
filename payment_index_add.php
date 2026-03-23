@@ -72,7 +72,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'get_periods') {
 
     try {
         $stmt = $conn->prepare(
-            "SELECT `period_covered` FROM `payment_index` WHERE `jo_id` = :jo_id"
+            "SELECT `period_covered` FROM `jo_payment_index` WHERE `jo_id` = :jo_id"
         );
         $stmt->execute([':jo_id' => $jo_id]);
         echo json_encode($stmt->fetchAll(PDO::FETCH_COLUMN));
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     try {
                         $existingRows = $conn->prepare(
                             "SELECT pi.`payindex_id`, pi.`deduct_id`, pi.`period_covered`
-                             FROM `payment_index` pi WHERE pi.`jo_id` = :jo_id"
+                             FROM `jo_payment_index` pi WHERE pi.`jo_id` = :jo_id"
                         );
                         $existingRows->execute([':jo_id' => $jo_id]);
                         $allRows = $existingRows->fetchAll(PDO::FETCH_ASSOC);
@@ -163,9 +163,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         if (!empty($matchedRows)) {
                             foreach ($matchedRows as $row) {
-                                $conn->prepare("DELETE FROM `deductions` WHERE `deduct_id` = :did")
+                                $conn->prepare("DELETE FROM `jo_deductions` WHERE `deduct_id` = :did")
                                      ->execute([':did' => $row['deduct_id']]);
-                                $conn->prepare("DELETE FROM `payment_index` WHERE `payindex_id` = :pid")
+                                $conn->prepare("DELETE FROM `jo_payment_index` WHERE `payindex_id` = :pid")
                                      ->execute([':pid' => $row['payindex_id']]);
                             }
                             $replacedCount = count($matchedRows);
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
 
                         $conn->prepare(
-                            "INSERT INTO `deductions`
+                            "INSERT INTO `jo_deductions`
                              (`lbp`,`pagibig_cont`,`pagibig_mpl`,`sss_cont`,`late_deduction`,`nursery_prod`)
                              VALUES (:lbp,:pc2,:pm,:sc,:ld,:np)"
                         )->execute([
@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $deduct_id = $conn->lastInsertId();
 
                         $conn->prepare(
-                            "INSERT INTO `payment_index`
+                            "INSERT INTO `jo_payment_index`
                              (`jo_id`,`period_covered`,`num_days`,`total_wage`,`deduct_id`,`total_amount_due`)
                              VALUES (:jid,:pc,:nd,:tw,:did,:tad)"
                         )->execute([
