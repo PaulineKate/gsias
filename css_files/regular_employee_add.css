@@ -26,7 +26,7 @@ html, body {
     padding: 15px 32px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 5px 18px;
     height: 100%;
     overflow-y: auto;
 }
@@ -72,11 +72,11 @@ html, body {
 .emp-divider { height: 2px; background: var(--green-mid); border-radius: 2px; margin: 18px 0; }
 
 /* Field row and group */
-.emp-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 14px; }
-.emp-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
-.emp-group.w-sm { max-width: 140px; }
-.emp-group.w-md { max-width: 200px; }
-.emp-group.w-lg { max-width: 280px; }
+.emp-row { display: flex; gap: 5px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 14px; width: 100%; }
+.emp-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px; }
+.emp-group.w-sm { max-width: 200px; }
+.emp-group.w-md { max-width: 250px; }
+.emp-group.w-lg { max-width: 300px; }
 
 /* Field label */
 .emp-label { font-size: 0.72rem; font-weight: 700; color: var(--green-dark); text-transform: uppercase; }
@@ -141,7 +141,7 @@ html, body {
 .emp-ac-dropdown li.empty  { color: #999; font-style: italic; cursor: default; }
 
 /* Form footer */
-.emp-footer { display: flex; justify-content: flex-end; margin-top: 22px; }
+.emp-footer { display: flex; justify-content: flex-end; margin-top: 5px; }
 
 /* Save button */
 .emp-btn-save {

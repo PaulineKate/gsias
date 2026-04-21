@@ -195,11 +195,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label class="emp-label">Department</label>
                                 <input type="text" name="department" class="emp-input" value="PGSO" readonly>
                             </div>
-                            <div class="emp-group" style="flex:2;"></div>
-                        </div>
-
-                        <!-- Designation (AJAX autocomplete) and salary -->
-                        <div class="emp-row">
+                            <div class="emp-group w-lg">
+                                <label class="emp-label">Employee Standing</label>
+                                <input type="text" name="emp_standing" class="emp-input" value="regular" readonly>
+                            </div>
                             <div class="emp-group w-lg">
                                 <label class="emp-label">Designation <span style="color:#c0392b">*</span></label>
                                 <div class="emp-ac-wrap">
@@ -220,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 <span class="emp-field-error" id="errSalary"></span>
                             </div>
-                            <div class="emp-group" style="flex:2;"></div>
+                            <div class="emp-group" style="flex:0;"></div>
                         </div>
 
                         <div class="emp-divider"></div>

@@ -14,7 +14,7 @@
         el.className = 'emp-alert ' + type;
         el.innerHTML = msg;
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        clearTimeout(el._t);
+        clearTimeout(el._t); 
         el._t = setTimeout(() => {
             el.style.transition = 'opacity 1s';
             el.style.opacity    = '0';

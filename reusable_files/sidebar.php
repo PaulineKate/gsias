@@ -49,6 +49,18 @@ $payrollActive = in_array($currentPage, $payrollPages);
                     <?php endif; ?>
                 </a>
             </li>
+            <!-- Casual Employee List -->
+             <li class="nav-item <?= in_array($currentPage, ['casual_employees.php', 'casual_employee_add.php']) ? 'active' : '' ?>">
+                <a href="casual_employees.php" class="nav-link">
+                    <span class="nav-icon">
+                        <img src="assets/icons/casual_employee_icon.png" alt="Job Order Contracts">
+                    </span>
+                    <span class="nav-label">Casual Employee List</span>
+                    <?php if (in_array($currentPage, ['casual_employees.php', 'casual_employee_add.php'])): ?>
+                        <span class="nav-active-bar"></span>
+                    <?php endif; ?>
+                </a>
+            </li>
 
             <!-- Job Order Contracts -->
             <li class="nav-item <?= in_array($currentPage, ['jo_contracts.php', 'jo_contract_reg.php']) ? 'active' : '' ?>">
@@ -71,16 +83,6 @@ $payrollActive = in_array($currentPage, $payrollPages);
                     </span>
                     <span class="nav-label">Payroll Management</span>
                 </a>
-
-                <ul class="nav-dropdown">
-                    <li class="nav-sub-item <?= in_array($currentPage, ['regular_employee_payroll.php', 'regular_employee_payroll_add.php']) ? 'active' : '' ?>">
-                        <a href="regular_employee_payroll.php" class="nav-sub-link">
-                            Regular Employee Payroll
-                            <?php if ($currentPage === 'regular_employee_payroll.php'): ?>
-                                <span class="nav-sub-active-bar"></span>
-                            <?php endif; ?>
-                        </a>
-                    </li>
                     <li class="nav-sub-item <?= in_array($currentPage, ['payment_index_add.php', 'view_excel.php']) ? 'active' : '' ?>">
                         <a href="payment_index_add.php" class="nav-sub-link">
                             Job Order Payroll
