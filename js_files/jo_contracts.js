@@ -14,8 +14,8 @@ function showPopup(message, type) {
     const existing = document.getElementById('joPopupOverlay');
     if (existing) existing.remove();
 
-    const icons = { warning: '⚠️', info: 'ℹ️', success: '✅' };
-    const icon  = icons[type] || 'ℹ️';
+    const icons = { warning: '', info: 'ℹ', success: '' };
+    const icon  = icons[type] || 'ℹ';
 
     const overlay = document.createElement('div');
     overlay.id = 'joPopupOverlay';

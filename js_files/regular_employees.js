@@ -1,4 +1,3 @@
-
 (function () {
     const searchInput = document.getElementById('regSearch');
     const tableBody   = document.getElementById('regTableBody');
@@ -28,9 +27,9 @@
         let visible = 0;
 
         dataRows.forEach(function (row) {
-            const name      = (row.dataset.name      || '').toLowerCase();
-            const refFolder = (row.dataset.refFolder || '').toLowerCase();
-            const match     = !query || name.includes(query) || refFolder.includes(query);
+            const name = (row.dataset.name || '').toLowerCase();
+            const id   = (row.dataset.id   || '').toLowerCase();
+            const match = !query || name.includes(query) || id.includes(query);
             row.style.display = match ? '' : 'none';
             if (match) visible++;
         });
@@ -44,7 +43,7 @@
                 noRow = document.createElement('tr');
                 noRow.className = 'no-results-live';
                 noRow.innerHTML =
-                    '<td colspan="10" style="text-align:center;padding:20px;' +
+                    '<td colspan="8" style="text-align:center;padding:20px;' +
                     'color:#7a9e7e;font-style:italic;">' +
                     'No records match &ldquo;' + escHtml(query) + '&rdquo;.</td>';
                 tableBody.insertBefore(noRow, tableBody.firstChild);

@@ -38,25 +38,25 @@ $payrollActive = in_array($currentPage, $payrollPages);
                 </a>
             </li>
             <!-- Regular Employee List -->
-             <li class="nav-item <?= in_array($currentPage, ['regular_employees.php', 'regular_employee_add.php']) ? 'active' : '' ?>">
+             <li class="nav-item <?= in_array($currentPage, ['regular_employees.php']) ? 'active' : '' ?>">
                 <a href="regular_employees.php" class="nav-link">
                     <span class="nav-icon">
                         <img src="assets/icons/employee_list_icon.png" alt="Job Order Contracts">
                     </span>
                     <span class="nav-label">Regular Employee List</span>
-                    <?php if (in_array($currentPage, ['regular_employees.php', 'regular_employees_add.php'])): ?>
+                    <?php if (in_array($currentPage, ['regular_employees.php'])): ?>
                         <span class="nav-active-bar"></span>
                     <?php endif; ?>
                 </a>
             </li>
             <!-- Casual Employee List -->
-             <li class="nav-item <?= in_array($currentPage, ['casual_employees.php', 'casual_employee_add.php']) ? 'active' : '' ?>">
+             <li class="nav-item <?= in_array($currentPage, ['casual_employees.php']) ? 'active' : '' ?>">
                 <a href="casual_employees.php" class="nav-link">
                     <span class="nav-icon">
                         <img src="assets/icons/casual_employee_icon.png" alt="Job Order Contracts">
                     </span>
                     <span class="nav-label">Casual Employee List</span>
-                    <?php if (in_array($currentPage, ['casual_employees.php', 'casual_employee_add.php'])): ?>
+                    <?php if (in_array($currentPage, ['casual_employees.php'])): ?>
                         <span class="nav-active-bar"></span>
                     <?php endif; ?>
                 </a>

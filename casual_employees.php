@@ -6,22 +6,27 @@ include 'reusable_files/db_connect.php';
 $reg_records = [];
 
 try {
-    $sql = "SELECT `emp_id`, CONCAT(last_name, ', ', first_name, ' ', SUBSTR(middle_name, 1, 1), '.') as full_name, `emp_designation`, `salary`, `department`, 
-    `sss_num`, `philhealth_num`, `tin_num`, `gsis_num`, `pagibig_num`, `emp_standing`, `emp_status` FROM `employee_info`WHERE emp_standing = 'casual' ORDER BY emp_id DESC";
+    $sql = "SELECT `emp_id`,
+            CONCAT(last_name, ', ', first_name, IF(middle_name != '' AND middle_name IS NOT NULL, CONCAT(' ', SUBSTR(middle_name, 1, 1), '.'), '')) AS full_name,
+            `emp_designation`, `salary`, `department`,
+            `emp_standing`, `emp_status`
+            FROM `employee_info`
+            WHERE emp_standing = 'casual'
+            ORDER BY emp_id DESC";
 
-    $stmt       = $conn->query($sql);
+    $stmt        = $conn->query($sql);
     $reg_records = $stmt->fetchAll();
 
 } catch (PDOException $e) {
-
+    // silent fail
 }
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GSIAS — Regular Employee List</title>
+    <title>GSIAS — Employee List</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,54 +35,7 @@ try {
     <link rel="stylesheet" href="css_files/sidebar.css">
     <link rel="stylesheet" href="css_files/header.css">
     <link rel="stylesheet" href="css_files/main_content.css">
-
     <link rel="stylesheet" href="css_files/regular_employees.css">
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        :root {
-            --green-dark:    #1a3d1f;
-            --green-mid:     #2a5c30;
-            --green-light:   #e8f5e9;
-            --green-content: #d4edda;
-            --sidebar-width: 220px;
-            --header-height: 56px;
-        }
-        html, body {
-            height: 100%;
-            font-family: 'Source Sans 3', sans-serif;
-            background: var(--green-light);
-            color: #1a2e1c;
-        }
-        .app-shell {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .app-sidebar {
-            width: var(--sidebar-width);
-            flex-shrink: 0;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-        .app-right {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            overflow: hidden;
-        }
-        .app-header {
-            flex-shrink: 0;
-        }
-        @media (max-width: 768px) {
-            :root { --sidebar-width: 64px; }
-        }
-    </style>
 </head>
 <body>
 <div class="app-shell">
@@ -93,9 +51,10 @@ try {
         </div>
 
         <main class="main-content">
-
             <div class="reg-wrapper">
-                <h1 class="reg-title">Casual Employee List</h1>
+
+                <h1 class="reg-title">Employee List</h1>
+
                 <div class="reg-toolbar">
                     <div class="reg-search-wrap">
                         <span class="search-icon">
@@ -119,57 +78,59 @@ try {
                     <table class="reg-table">
                         <thead>
                             <tr>
-                                <th style="width:42px;">Employee_ID</th>
+                                <th>Employee ID</th>
                                 <th>Name</th>
-                                <th>Position</th>
+                                <th>Designation</th>
                                 <th>Salary</th>
                                 <th>Department</th>
-                                <th>SSS No.</th>
-                                <th>Philhealth No.</th>
-                                <th>Tin No.</th>
-                                <th>GSIS No.</th>
-                                <th>Pag-ibig No.</th>
+                                <th>Standing</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="regTableBody">
-
                             <?php if (!empty($reg_records)) : ?>
-                                <?php $total = count($reg_records); $counter = $total; ?>
                                 <?php foreach ($reg_records as $row) : ?>
-                                <tr class="reg-data-row">
+                                <tr class="reg-data-row"
+                                    data-name="<?= htmlspecialchars(strtolower($row['full_name'])) ?>"
+                                    data-id="<?= htmlspecialchars(strtolower($row['emp_id'])) ?>">
                                     <td><?= htmlspecialchars($row['emp_id']) ?></td>
                                     <td><?= htmlspecialchars($row['full_name']) ?></td>
                                     <td><?= htmlspecialchars($row['emp_designation']) ?></td>
-                                    <td><?= number_format((float)$row['salary'], 2) ?></td>
+                                    <td>₱<?= number_format((float)$row['salary'], 2) ?></td>
                                     <td><?= htmlspecialchars($row['department']) ?></td>
-                                    <td><?= htmlspecialchars($row['sss_num']) ?></td>
-                                    <td><?= htmlspecialchars($row['philhealth_num']) ?></td>
-                                    <td><?= htmlspecialchars($row['tin_num']) ?></td>
-                                    <td><?= htmlspecialchars($row['gsis_num']) ?></td>
-                                    <td><?= htmlspecialchars($row['pagibig_num']) ?></td>
                                     <td>
-                                        <button type="button" class="btn-view-details" onclick="noFileAlert(this)">
-                                            pending
+                                        <span class="reg-badge reg-badge--<?= strtolower(htmlspecialchars($row['emp_standing'])) ?>">
+                                            <?= ucfirst(htmlspecialchars($row['emp_standing'])) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="reg-badge reg-badge--<?= $row['emp_status'] ? 'active' : 'inactive' ?>">
+                                            <?= $row['emp_status'] ? 'Active' : 'Inactive' ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn-update-info"
+                                            onclick="window.location.href='employee_credentials.php?emp_id=<?= urlencode($row['emp_id']) ?>'">
+                                            Update Info
                                         </button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr class="no-results">
-                                    <td colspan="10">No records found.</td>
+                                    <td colspan="8">No records found.</td>
+                                </tr>
                             <?php endif; ?>
-
                         </tbody>
                     </table>
                 </div>
 
             </div>
-
         </main>
     </div>
 </div>
 
-<script src="js_files/regular_employee  s.js"></script>
+<script src="js_files/regular_employees.js"></script>
 </body>
 </html>
