@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 <div class="emp-top-bar">
                     <h1 class="emp-title">Update Employee Record</h1>
-                    <a href="regular_employees.php" class="emp-btn-back">← Back to List</a>
+                    <!-- <a href="regular_employees.php" class="emp-btn-back">← Back to List</a> -->
                 </div>
 
                 <div id="empAlert" class="emp-alert"></div>
