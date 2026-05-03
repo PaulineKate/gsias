@@ -1,8 +1,8 @@
 (function () {
-    const searchInput = document.getElementById('regSearch');
-    const tableBody   = document.getElementById('regTableBody');
+    const searchInput = document.getElementById('logsSearch');
+    const tableBody   = document.getElementById('logsTableBody');
     const dataRows    = tableBody
-        ? Array.from(tableBody.querySelectorAll('tr.reg-data-row'))
+        ? Array.from(tableBody.querySelectorAll('tr.logs-data-row'))
         : [];
 
     if (!searchInput || !dataRows.length) return;
@@ -21,25 +21,25 @@
     /* Initial stripe on page load */
     restripe();
 
-    /* ── Filter immediately showing only names starting with query ── */
+    /* ── Filter rows based on search query ── */
     searchInput.addEventListener('input', function () {
         const query = this.value.trim().toLowerCase();
         let visible = 0;
 
         dataRows.forEach(function (row) {
-            const name = (row.dataset.name || '').toLowerCase();
-            const id   = (row.dataset.id   || '').toLowerCase();
-            
+            const name   = (row.dataset.name   || '').toLowerCase();
+            const gmail  = (row.dataset.gmail  || '').toLowerCase();
+            const id     = (row.dataset.id     || '').toLowerCase();
+
             if (!query) {
-                // No query: show all
                 row.style.display = '';
                 visible++;
             } else {
-                // Show only if name starts with query OR ID matches
-                const nameStartsWith = name.startsWith(query);
-                const idMatch = id.includes(query);
-                
-                if (nameStartsWith || idMatch) {
+                const matches = name.startsWith(query)
+                             || gmail.includes(query)
+                             || id.includes(query);
+
+                if (matches) {
                     row.style.display = '';
                     visible++;
                 } else {
@@ -57,7 +57,7 @@
                 noRow = document.createElement('tr');
                 noRow.className = 'no-results-live';
                 noRow.innerHTML =
-                    '<td colspan="8" style="text-align:center;padding:20px;' +
+                    '<td colspan="5" style="text-align:center;padding:20px;' +
                     'color:#7a9e7e;font-style:italic;">' +
                     'No records match &ldquo;' + escHtml(query) + '&rdquo;.</td>';
                 tableBody.insertBefore(noRow, tableBody.firstChild);

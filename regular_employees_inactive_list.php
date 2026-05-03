@@ -11,7 +11,7 @@ try {
             `emp_designation`, `salary`, `department`,
             `emp_standing`, `emp_status`
             FROM `employee_info`
-            WHERE emp_standing = 'casual' AND emp_status = 1
+            WHERE emp_standing = 'regular' AND emp_status = 0
             ORDER BY emp_id DESC"; 
 
     $stmt        = $conn->query($sql);
@@ -72,8 +72,8 @@ try {
                         <span class="btn-plus">+</span>
                         Add New Employee Record
                     </button>|
-                    <button class="reg-btn-add" onclick="window.location.href='casual_employees_inactive_list.php'">
-                        Inactive Casual Employee List
+                    <button class="reg-btn-add" onclick="window.location.href='regular_employees.php'">
+                        Active Regular Employee List
                     </button>
                 </div>
 

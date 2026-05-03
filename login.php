@@ -17,7 +17,7 @@
 
                 <div class="col-md-5">
                     <div class="left-panel text-center">
-                        <div class="logo-wrapper mx-auto mb-3">
+                        <div class="logo-wrapper mx-auto mb-3"> 
                             <img src="assets/pgso_logo.png" alt="PGSO Logo" class="logo-img">
                         </div>
                         <h2 class="system-title">GENERAL SERVICES INFORMATION AND ARCHIVING SYSTEM (GSIAS)</h2>
@@ -25,6 +25,7 @@
                         <p class="province-name">PROVINCE OF CAMARINES NORTE</p>
                     </div>
                 </div>
+
                 <div class="col-auto d-none d-md-flex">
                     <div class="vertical-divider"></div>
                 </div>
@@ -37,6 +38,9 @@
                         if (isset($_GET['error']) && $_GET['error'] === '1') {
                             echo '<div class="alert alert-danger py-2">Invalid username or password.</div>';
                         }
+                        if (isset($_GET['reset']) && $_GET['reset'] === '1') {
+                            echo '<div class="alert alert-warning py-2">You are using a temporary password. Please <strong>change your password</strong> after logging in.</div>';
+                        }
                         ?>
 
                         <form action="auth.php" method="POST">
@@ -47,6 +51,7 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label field-label">Password</label>
                                 <input type="password" class="form-control login-input" id="password" name="password" required autocomplete="current-password">
+                                <a href="forgot_password.php" class="forgot-link">Forgot Password?</a>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn login-btn">LOG IN</button>

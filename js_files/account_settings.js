@@ -27,7 +27,7 @@ function showConfirm(message, onConfirm) {
         'animation:asFadeIn 0.2s ease;';
 
     box.innerHTML =
-        '<div style="font-size:2rem;margin-bottom:10px;">💾</div>' +
+        '<div style="font-size:2rem;margin-bottom:10px;"></div>' +
         '<p style="color:#1a2e1c;font-size:0.92rem;line-height:1.65;margin-bottom:24px;">' +
             message +
         '</p>' +
@@ -75,7 +75,7 @@ function showSuccess(message) {
         'animation:asFadeIn 0.2s ease;';
 
     box.innerHTML =
-        '<div style="font-size:2.2rem;margin-bottom:10px;">✅</div>' +
+        '<div style="font-size:2.2rem;margin-bottom:10px;"></div>' +
         '<p style="color:#1a2e1c;font-size:0.92rem;line-height:1.65;margin-bottom:22px;">' +
             message +
         '</p>' +
@@ -99,8 +99,8 @@ function showPopup(message, type) {
     const existing = document.getElementById('asInfoOverlay');
     if (existing) existing.remove();
 
-    const icons = { warning: '⚠️', info: 'ℹ️', success: '✅' };
-    const icon  = icons[type] || 'ℹ️';
+    const icons = { warning: '', info: 'ℹ', success: '' };
+    const icon  = icons[type] || 'ℹ';
 
     const overlay = document.createElement('div');
     overlay.id = 'asInfoOverlay';

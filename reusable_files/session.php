@@ -9,9 +9,13 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit();
 }
 
-$username = htmlspecialchars($_SESSION['admin_name'] ?? 'Unknown');
-$userRole = htmlspecialchars($_SESSION['admin_user'] ?? 'Unknown');
+// Retrieve session variables
+$username     = htmlspecialchars($_SESSION['admin_name'] ?? 'Unknown');
+$userRole     = htmlspecialchars($_SESSION['admin_user'] ?? 'Unknown');
+$gmailAccount = htmlspecialchars($_SESSION['gmail_account'] ?? 'Unknown');
+$userLevel    = htmlspecialchars($_SESSION['user_level'] ?? 'Unknown');
 
+// Load admin_image if not already in session
 if (!isset($_SESSION['admin_image'])) {
     if (!isset($conn)) {
         include 'reusable_files/db_connect.php';

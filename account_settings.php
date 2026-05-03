@@ -5,7 +5,7 @@ include 'reusable_files/db_connect.php';
 $admin_user = $_SESSION['admin_user']; 
 
 // Fetch admin data
-$stmt = $conn->prepare("SELECT `admin_name`, `admin_user`, `admin_pass`, `admin_image` FROM `admin_creds` WHERE `admin_user` = ?");
+$stmt = $conn->prepare("SELECT `admin_name`, `admin_user`, `admin_pass`, `admin_image`, `gmail_account`, `user_level` FROM `admin_creds` WHERE `admin_user` = ?");
 $stmt->execute([$admin_user]);
 $admin = $stmt->fetch();
 
@@ -17,15 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_user     = trim($_POST['username']);
     $new_pass     = trim($_POST['password']);
     $confirm_pass = trim($_POST['confirm_password']);
+    $new_email    = trim($_POST['gmail_account']);
     $has_new_image = !empty($_FILES['profile_image']['name']);
 
     // Check if nothing changed
-    $name_unchanged  = $new_name === $admin['admin_name'];
-    $user_unchanged  = $new_user === $admin['admin_user'];
+    $name_unchanged  = $new_name  === $admin['admin_name'];
+    $user_unchanged  = $new_user  === $admin['admin_user'];
+    $email_unchanged = $new_email === $admin['gmail_account'];
     $pass_unchanged  = empty($new_pass);
     $image_unchanged = !$has_new_image;
 
-    if ($name_unchanged && $user_unchanged && $pass_unchanged && $image_unchanged) {
+    if ($name_unchanged && $user_unchanged && $pass_unchanged && $image_unchanged && $email_unchanged) {
         $no_change = true;
     } else {
         $image_name = $admin['admin_image'];
@@ -49,17 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 if (!empty($new_pass)) {
                     $hashed = password_hash($new_pass, PASSWORD_DEFAULT);
-                    $upd = $conn->prepare("UPDATE `admin_creds` SET `admin_name` = ?, `admin_user` = ?, `admin_pass` = ?, `admin_image` = ? WHERE `admin_user` = ?");
-                    $upd->execute([$new_name, $new_user, $hashed, $image_name, $admin_user]);
+                    $upd = $conn->prepare("UPDATE `admin_creds` SET `admin_name` = ?, `admin_user` = ?, `admin_pass` = ?, `admin_image` = ?, `gmail_account` = ? WHERE `admin_user` = ?");
+                    $upd->execute([$new_name, $new_user, $hashed, $image_name, $new_email, $admin_user]);
                 } else {
-                    $upd = $conn->prepare("UPDATE `admin_creds` SET `admin_name` = ?, `admin_user` = ?, `admin_image` = ? WHERE `admin_user` = ?");
-                    $upd->execute([$new_name, $new_user, $image_name, $admin_user]);
+                    $upd = $conn->prepare("UPDATE `admin_creds` SET `admin_name` = ?, `admin_user` = ?, `admin_image` = ?, `gmail_account` = ? WHERE `admin_user` = ?");
+                    $upd->execute([$new_name, $new_user, $image_name, $new_email, $admin_user]);
                 }
 
                 $_SESSION['admin_user'] = $new_user;
                 $admin_user = $new_user;
 
-                $stmt2 = $conn->prepare("SELECT `admin_name`, `admin_user`, `admin_pass`, `admin_image` FROM `admin_creds` WHERE `admin_user` = ?");
+                $stmt2 = $conn->prepare("SELECT `admin_name`, `admin_user`, `admin_pass`, `admin_image`, `gmail_account`, `user_level` FROM `admin_creds` WHERE `admin_user` = ?");
                 $stmt2->execute([$admin_user]);
                 $admin = $stmt2->fetch();
 
@@ -148,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </label>
                             <input type="file" id="profile_image" name="profile_image" accept="image/*" hidden>
                         </div>
+
                         <div class="as-fields">
                             <div class="as-field-row">
                                 <label class="as-label" for="full_name">FULL NAME:</label>
@@ -158,6 +161,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label class="as-label" for="username">USERNAME:</label>
                                 <input class="as-input" type="text" id="username" name="username"
                                        value="<?= htmlspecialchars($admin['admin_user']) ?>" required>
+                            </div>
+                            <div class="as-field-row">
+                                <label class="as-label" for="gmail_account">EMAIL:</label>
+                                <input class="as-input" type="email" id="gmail_account" name="gmail_account"
+                                       value="<?= htmlspecialchars($admin['gmail_account'] ?? '') ?>"
+                                       placeholder="Enter email address">
+                            </div>
+                            <div class="as-field-row">
+                                <label class="as-label" for="user_level">USER LEVEL:</label>
+                                <input class="as-input as-input--readonly" type="text" id="user_level" name="user_level"
+                                       value="<?= htmlspecialchars($admin['user_level'] ?? '') ?>" readonly>
                             </div>
                             <div class="as-field-row">
                                 <label class="as-label" for="password">PASSWORD:</label>

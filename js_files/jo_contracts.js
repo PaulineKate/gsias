@@ -1,4 +1,3 @@
-
 (function () {
     if (document.getElementById('joPopupStyle')) return;
     const s = document.createElement('style');
@@ -14,7 +13,7 @@ function showPopup(message, type) {
     const existing = document.getElementById('joPopupOverlay');
     if (existing) existing.remove();
 
-    const icons = { warning: '', info: 'ℹ', success: '' };
+    const icons = { warning: '⚠', info: 'ℹ', success: '✓' };
     const icon  = icons[type] || 'ℹ';
 
     const overlay = document.createElement('div');
@@ -107,7 +106,7 @@ function noFileAlert(btn) {
     /* Initial stripe on page load */
     restripe();
 
-    /* ── Filter on every keystroke ── */
+    /* ── Filter immediately showing only names starting with query ── */
     searchInput.addEventListener('input', function () {
         const query = this.value.trim().toLowerCase();
         let visible = 0;
@@ -115,9 +114,23 @@ function noFileAlert(btn) {
         dataRows.forEach(function (row) {
             const name      = (row.dataset.name      || '').toLowerCase();
             const refFolder = (row.dataset.refFolder || '').toLowerCase();
-            const match     = !query || name.includes(query) || refFolder.includes(query);
-            row.style.display = match ? '' : 'none';
-            if (match) visible++;
+            
+            if (!query) {
+                // No query: show all
+                row.style.display = '';
+                visible++;
+            } else {
+                // Show only if name starts with query OR refFolder matches
+                const nameStartsWith = name.startsWith(query);
+                const refFolderMatch = refFolder.includes(query);
+                
+                if (nameStartsWith || refFolderMatch) {
+                    row.style.display = '';
+                    visible++;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
         });
 
         restripe();

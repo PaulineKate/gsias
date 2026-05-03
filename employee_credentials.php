@@ -249,10 +249,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         <input type="hidden" name="action" id="formAction" value="update">
 
                         <div class="emp-footer">
-                            <button type="button" id="empDeleteBtn" class="emp-btn-delete">Delete Record</button>
+                            <button type="button" id="empDeleteBtn" class="emp-btn-delete">Remove Record</button>
                             <button type="button" id="empUpdateBtn" class="emp-btn-save">Update Record</button>
                         </div>
-
+    
                     </form>
                 </div>
 

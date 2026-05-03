@@ -27,7 +27,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'get_names') {
         $startDate = sprintf('%04d-%02d-01', $year, $month);
         $endDate   = date('Y-m-t', strtotime($startDate));
 
-        $stmt = $conn->prepare(
+        $stmt = $conn->prepare( 
             "SELECT `jo_id`, `name`, `designation`, `rate`, `date_from`, `date_to`
              FROM `jo_contracts`
              WHERE `date_from` <= :end_date AND `date_to` >= :start_date

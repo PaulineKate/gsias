@@ -190,6 +190,21 @@ body {
     box-shadow: 0 0 0 3px rgba(45,106,45,0.18);
     outline: none;
 }
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--mid-green, #2d6a2d);
+    text-decoration: none;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+}
+.forgot-link:hover {
+    color: var(--dark-green, #1a4a1a);
+    text-decoration: underline;
+}
 
 /* ---- Login Button ---- */
 .btn.login-btn {
