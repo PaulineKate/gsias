@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css_files/login.css">
+    <link rel="stylesheet" href="css_files/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <title>GSIAS - Log In</title>
 </head>
@@ -50,7 +50,13 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label field-label">Password</label>
-                                <input type="password" class="form-control login-input" id="password" name="password" required autocomplete="current-password">
+                                <div class="pass-wrap">
+                                    <input type="password" class="form-control login-input" id="password"
+                                        name="password" required autocomplete="current-password">
+                                    <button type="button" class="pass-toggle" id="togglePass" aria-label="Toggle password visibility">
+                                        <img src="assets/icons/password_invisible_icon.png" id="eyePassIcon" alt="Show password">
+                                    </button>
+                                </div>
                                 <a href="forgot_password.php" class="forgot-link">Forgot Password?</a>
                             </div>
                             <div class="d-grid">
@@ -63,5 +69,6 @@
             </div>
         </div>
     </div>
+    <script src="js_files/login.js"></script>
 </body>
 </html>

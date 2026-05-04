@@ -1,7 +1,3 @@
-/* ===========================
-   GSIAS Login Page Styles
-   =========================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap');
 
 :root {
@@ -29,11 +25,10 @@ body {
     min-height: 100vh;
 }
 
-/* Background image with green overlay */
 .bg-overlay {
     position: fixed;
     inset: 0;
-    background-image: url('../assets/provincial_capitol.png'); /* Replace with your actual background image */
+    background-image: url('../assets/provincial_capitol.png'); 
     background-size: cover;
     width: 120vw;
     background-position: center;
@@ -69,7 +64,6 @@ body {
     padding: 15px 0px 15px 40px;
 }
 
-/* ---- Left Panel ---- */
 .left-panel {
     background: var(--left-panel-bg);
     border-radius: 12px;
@@ -91,7 +85,6 @@ body {
     object-fit: contain;
 }
 
-/* Placeholder circle if logo image is missing */
 .logo-placeholder {
     width: 160px;
     height: 160px;
@@ -190,6 +183,7 @@ body {
     box-shadow: 0 0 0 3px rgba(45,106,45,0.18);
     outline: none;
 }
+
 .forgot-link {
     display: block;
     text-align: right;
@@ -257,4 +251,37 @@ body {
     .system-title {
         font-size: 13px;
     }
+}
+
+/* ---- Password toggle wrapper ---- */
+.pass-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pass-wrap .login-input {
+    width: 100%;
+    padding-right: 42px;
+}
+
+.pass-toggle {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.55;
+    transition: opacity 0.2s;
+}
+
+.pass-toggle:hover { opacity: 1; }
+
+.pass-toggle img {
+    width: 20px;
+    height: 20px;
+    display: block;
 }

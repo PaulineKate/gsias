@@ -384,7 +384,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action'])) {
                                            minlength="8" required>
                                     <button type="button" class="ac-pass-toggle" id="togglePass"
                                             aria-label="Toggle password visibility">
-                                        <img src="img/eye_open.png" id="eyePassIcon" alt="Show password">
+                                        <img src="assets/icons/password_invisible_icon.png" id="eyePassIcon" alt="Show password">
                                     </button>
                                 </div>
                             </div>
@@ -400,7 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action'])) {
                                            minlength="8" required>
                                     <button type="button" class="ac-pass-toggle" id="toggleConfirmPass"
                                             aria-label="Toggle confirm password visibility">
-                                        <img src="img/eye_open.png" id="eyeConfirmIcon" alt="Show password">
+                                        <img src="assets/icons/password_invisible_icon.png" id="eyeConfirmIcon" alt="Show password">
                                     </button>
                                 </div>
                             </div>

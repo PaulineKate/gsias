@@ -45,7 +45,7 @@
         btn.addEventListener('click', () => {
             const isHidden = input.type === 'password';
             input.type = isHidden ? 'text' : 'password';
-            icon.src   = isHidden ? 'img/eye_closed.png' : 'img/eye_open.png';
+            icon.src   = isHidden ? 'assets/icons/password_visible_icon.png' : 'assets/icons/password_invisible_icon.png';
             icon.alt   = isHidden ? 'Hide password'      : 'Show password';
         });
     }

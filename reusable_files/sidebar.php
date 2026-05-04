@@ -138,6 +138,17 @@ $isUser  = isset($_SESSION['user_level']) && $_SESSION['user_level'] === 'user';
                         </a>
                     </li>
                     <?php endif; ?>
+                    <!-- account List — admin only -->
+                    <?php if ($isAdmin): ?>
+                    <li class="nav-sub-item <?= $currentPage === 'account_list.php' ? 'active' : '' ?>">
+                        <a href="account_list.php" class="nav-sub-link">
+                            Account List
+                            <?php if ($currentPage === 'account_list.php'): ?>
+                                <span class="nav-sub-active-bar"></span>
+                            <?php endif; ?>
+                        </a>
+                    </li>
+                    <?php endif; ?>
                     <!-- account creation — admin only -->
                     <?php if ($isAdmin): ?>
                     <li class="nav-sub-item <?= $currentPage === 'account_creation.php' ? 'active' : '' ?>">

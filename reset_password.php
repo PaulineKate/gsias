@@ -120,12 +120,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <form action="reset_password.php" method="POST">
                             <div class="mb-3">
                                 <label for="new_password" class="form-label field-label">New Password</label>
-                                <input type="password" class="form-control login-input" id="new_password" name="new_password" required minlength="8">
+                                <div class="pass-wrap">
+                                    <input type="password" class="form-control login-input" id="new_password"
+                                        name="new_password" required minlength="8">
+                                    <button type="button" class="pass-toggle" id="toggleNewPass" aria-label="Toggle new password visibility">
+                                        <img src="img/password_invisible_icon.png" id="eyeNewPassIcon" alt="Show password">
+                                    </button>
+                                </div>
                                 <p class="password-hint">Minimum 8 characters.</p>
                             </div>
                             <div class="mb-3">
                                 <label for="confirm_password" class="form-label field-label">Confirm Password</label>
-                                <input type="password" class="form-control login-input" id="confirm_password" name="confirm_password" required minlength="8">
+                                <div class="pass-wrap">
+                                    <input type="password" class="form-control login-input" id="confirm_password"
+                                        name="confirm_password" required minlength="8">
+                                    <button type="button" class="pass-toggle" id="toggleConfirmPass" aria-label="Toggle confirm password visibility">
+                                        <img src="assets/icons/password_invisible_icon.png" id="eyeConfirmIcon" alt="Show password">
+                                    </button>
+                                </div>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn login-btn">SAVE NEW PASSWORD</button>
