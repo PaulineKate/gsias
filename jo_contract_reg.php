@@ -37,12 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $n = trim($name);
         if ($n === '') continue;
         if (preg_match('/[0-9]/', $n)) {
-            $name_error = 'Names must not contain numbers.';
-            break;
+            $name_error = 'Names must not contain numbers.'; break;
         }
         if (mb_strlen($n) < 5) {
-            $name_error = 'Each name must be at least 5 characters long.';
-            break;
+            $name_error = 'Each name must be at least 5 characters long.'; break;
         }
     }
     if ($name_error) {
@@ -51,9 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($alert_type !== 'error') {
-        $valid_designations    = array_map('strtoupper', $designation_options);
-        $valid_funding_charges = array_map('strtoupper', $funding_charges_options);
-
+        $valid_designations = array_map('strtoupper', $designation_options);
         foreach ($designations as $d) {
             if (!in_array(strtoupper(trim($d)), $valid_designations, true)) {
                 $alert_msg  = 'Invalid designation: "' . htmlspecialchars(trim($d)) . '". Please select from the list.';
@@ -78,32 +74,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($alert_type !== 'error' && !empty($_FILES['pdf_file']['name'])) {
         $upload_dir = 'JO_Contract_files/';
-
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-        }
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
 
         $original_name = basename($_FILES['pdf_file']['name']);
         $safe_name     = preg_replace('/[^A-Za-z0-9._\-]/', '_', $original_name);
         $file_ext      = strtolower(pathinfo($safe_name, PATHINFO_EXTENSION));
 
         if ($file_ext !== 'pdf') {
-            $alert_msg  = 'Only PDF files are allowed.';
-            $alert_type = 'error';
+            $alert_msg = 'Only PDF files are allowed.'; $alert_type = 'error';
         } elseif ($_FILES['pdf_file']['size'] > 20 * 1024 * 1024) {
-            $alert_msg  = 'PDF file must be under 20MB.';
-            $alert_type = 'error';
+            $alert_msg = 'PDF file must be under 20MB.'; $alert_type = 'error';
         } else {
-            if ($ref_folder === '') {
-                $ref_folder = strtoupper(pathinfo($safe_name, PATHINFO_FILENAME));
-            }
-
+            if ($ref_folder === '') $ref_folder = strtoupper(pathinfo($safe_name, PATHINFO_FILENAME));
             $save_name   = strtoupper($ref_folder) . '.pdf';
             $target_path = $upload_dir . $save_name;
-
             if (!move_uploaded_file($_FILES['pdf_file']['tmp_name'], $target_path)) {
-                $alert_msg  = 'Failed to upload PDF. Check folder permissions.';
-                $alert_type = 'error';
+                $alert_msg = 'Failed to upload PDF. Check folder permissions.'; $alert_type = 'error';
             } else {
                 $ref_file = 1;
             }
@@ -259,8 +245,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="joreg-divider"></div>
 
-                        <!-- ── PDF Upload ── -->
+                        <!-- ── Bulk-add + PDF Upload row ── -->
                         <div class="joreg-pdf-row">
+
+                            <!-- Bulk entry count -->
+                            <span class="joreg-bulk-label">Add rows :</span>
+                            <input type="number" id="joregBulkCount" class="joreg-bulk-input"
+                                   value="1" min="1" max="50" placeholder="1">
+                            <button type="button" class="joreg-bulk-btn" onclick="joregBulkAdd()">
+                                + Add Rows
+                            </button>
+
+                            <span style="border-left:2px solid #b2cfb5;height:24px;display:inline-block;margin:0 6px;"></span>
+
+                            <!-- PDF upload -->
                             <span class="joreg-pdf-label-text">Upload PDF (optional) :</span>
                             <button type="button" class="joreg-btn-upload">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -278,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span class="joreg-pdf-or">— or type the folder name above</span>
                             <span id="joregPdfName" class="joreg-pdf-name"></span>
                             <span class="joreg-pdf-or" style="color:#2a5c30;font-style:normal;font-size:0.72rem;">
-                                ℹ️ If a PDF with the same name already exists, it will be replaced.
+                                ℹ If a PDF with the same name already exists, it will be replaced.
                             </span>
                         </div>
 
@@ -295,7 +293,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div id="joregRows" class="joreg-rows-container">
                             <div class="joreg-entry-row" data-row-id="1">
 
-                                <!-- Name -->
                                 <div class="joreg-field-wrap">
                                     <input type="text" class="joreg-input joreg-name-input"
                                            name="name[]" placeholder="Full name"
@@ -303,7 +300,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <span class="joreg-field-error"></span>
                                 </div>
 
-                                <!-- Designation autocomplete -->
                                 <div class="joreg-field-wrap joreg-ac-wrap">
                                     <input type="text" class="joreg-input joreg-ac-input"
                                            name="designation[]"
@@ -314,7 +310,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <ul class="joreg-ac-dropdown"></ul>
                                 </div>
 
-                                <!-- Funding Charges autocomplete -->
                                 <div class="joreg-field-wrap joreg-ac-wrap">
                                     <input type="text" class="joreg-input joreg-ac-input"
                                            name="funding_charges[]"
@@ -325,14 +320,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <ul class="joreg-ac-dropdown"></ul>
                                 </div>
 
-                               <!-- Rate -->
                                 <div class="joreg-field-wrap">
                                     <input type="text" class="joreg-input" name="rate[]"
-                                        placeholder="0.00" required>
+                                           placeholder="0.00" required>
                                     <span class="joreg-field-error"></span>
                                 </div>
 
-                                <!-- Add button -->
+                                <!-- First row gets the + button -->
                                 <button type="button" class="joreg-btn-add-row"
                                         onclick="addEntryRow()" title="Add another row">+</button>
                             </div>

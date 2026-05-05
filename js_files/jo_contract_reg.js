@@ -25,7 +25,7 @@ function showConfirm(message, onConfirm) {
         'font-family:\'Source Sans 3\',sans-serif;animation:joFadeIn 0.2s ease;';
 
     box.innerHTML =
-        '<div style="font-size:2rem;margin-bottom:10px;">💾</div>' +
+        '<div style="font-size:2rem;margin-bottom:10px;"></div>' +
         '<p style="color:#1a2e1c;font-size:0.92rem;line-height:1.65;margin-bottom:24px;">' +
             message +
         '</p>' +
@@ -43,12 +43,8 @@ function showConfirm(message, onConfirm) {
     overlay.appendChild(box);
     document.body.appendChild(overlay);
 
-    overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) overlay.remove();
-    });
-    document.getElementById('joregCancelBtn').addEventListener('click', function () {
-        overlay.remove();
-    });
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
+    document.getElementById('joregCancelBtn').addEventListener('click', function () { overlay.remove(); });
     document.getElementById('joregConfirmBtn').addEventListener('click', function () {
         overlay.remove();
         onConfirm();
@@ -73,30 +69,20 @@ function validateNameInput(input) {
     const errEl = input.closest('.joreg-field-wrap')?.querySelector('.joreg-field-error');
     let msg = '';
 
-    if (/[0-9]/.test(val)) {
-        msg = 'Name must not contain numbers.';
-    } else if (val.trim().length > 0 && val.trim().length < 5) {
-        msg = 'Name must be at least 5 characters.';
-    }
+    if (/[0-9]/.test(val))                          msg = 'Name must not contain numbers.';
+    else if (val.trim().length > 0 && val.trim().length < 5) msg = 'Name must be at least 5 characters.';
 
-    if (errEl) {
-        errEl.textContent   = msg;
-        errEl.style.display = msg ? 'block' : 'none';
-    }
+    if (errEl) { errEl.textContent = msg; errEl.style.display = msg ? 'block' : 'none'; }
     input.classList.toggle('joreg-input--error', !!msg);
     return msg === '';
 }
 
 function attachNameValidation(input) {
-    /* Block number keys in real-time */
     input.addEventListener('keydown', function (e) {
         if (/^[0-9]$/.test(e.key)) {
             e.preventDefault();
             const errEl = input.closest('.joreg-field-wrap')?.querySelector('.joreg-field-error');
-            if (errEl) {
-                errEl.textContent   = 'Name must not contain numbers.';
-                errEl.style.display = 'block';
-            }
+            if (errEl) { errEl.textContent = 'Name must not contain numbers.'; errEl.style.display = 'block'; }
             input.classList.add('joreg-input--error');
         }
     });
@@ -106,63 +92,35 @@ function attachNameValidation(input) {
 
 function validateRateInput(input) {
     const val   = input.value.trim();
-    const errEl = input.closest('.joreg-field-wrap') 
-                    ? input.closest('.joreg-field-wrap').querySelector('.joreg-field-error')
-                    : null;
+    const errEl = input.closest('.joreg-field-wrap')?.querySelector('.joreg-field-error');
     let msg = '';
 
-    if (val === '') {
-        msg = 'Rate is required.';
-    } else if (!/^\d+(\.\d{0,2})?$/.test(val)) {
-        msg = 'Enter a valid number (e.g. 500 or 20.50).';
-    } else if (parseFloat(val) <= 0) {
-        msg = 'Rate must be greater than 0.';
-    } else if (parseFloat(val) > 50000) {
-        msg = 'Rate cannot exceed 50,000.';
-    }
+    if (val === '')                             msg = 'Rate is required.';
+    else if (!/^\d+(\.\d{0,2})?$/.test(val))  msg = 'Enter a valid number (e.g. 500 or 20.50).';
+    else if (parseFloat(val) <= 0)             msg = 'Rate must be greater than 0.';
+    else if (parseFloat(val) > 50000)          msg = 'Rate cannot exceed 50,000.';
 
-    if (errEl) {
-        errEl.textContent   = msg;
-        errEl.style.display = msg ? 'block' : 'none';
-    }
+    if (errEl) { errEl.textContent = msg; errEl.style.display = msg ? 'block' : 'none'; }
     input.classList.toggle('joreg-input--error', !!msg);
     return msg === '';
 }
 
 function attachRateValidation(input) {
-    /* Only allow digits and a single decimal point */
     input.addEventListener('keydown', function (e) {
         const allowed = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End'];
         if (allowed.includes(e.key)) return;
-
-        /* Allow one dot only if none exists yet */
-        if (e.key === '.') {
-            if (this.value.includes('.')) e.preventDefault();
-            return;
-        }
-
-        /* Block anything that isn't a digit */
+        if (e.key === '.') { if (this.value.includes('.')) e.preventDefault(); return; }
         if (!/^[0-9]$/.test(e.key)) {
             e.preventDefault();
-            const errEl = this.closest('.joreg-field-wrap')
-                            ? this.closest('.joreg-field-wrap').querySelector('.joreg-field-error')
-                            : null;
-            if (errEl) {
-                errEl.textContent   = 'Only numbers are allowed.';
-                errEl.style.display = 'block';
-            }
+            const errEl = this.closest('.joreg-field-wrap')?.querySelector('.joreg-field-error');
+            if (errEl) { errEl.textContent = 'Only numbers are allowed.'; errEl.style.display = 'block'; }
             this.classList.add('joreg-input--error');
         }
     });
-
-    /* Limit to 2 decimal places on paste */
     input.addEventListener('input', function () {
-        if (/^\d+\.\d{3,}$/.test(this.value)) {
-            this.value = parseFloat(this.value).toFixed(2);
-        }
+        if (/^\d+\.\d{3,}$/.test(this.value)) this.value = parseFloat(this.value).toFixed(2);
         validateRateInput(this);
     });
-
     input.addEventListener('blur', function () { validateRateInput(this); });
 }
 
@@ -180,24 +138,14 @@ function initDateLogic() {
     dateFrom.addEventListener('change', function () {
         const from = this.value;
         if (!from) return;
-
-        const minTo = getNextDay(from);
-        dateTo.min = minTo;
-
-        /* If the currently selected TO date is now before the new minimum, clear it */
-        if (dateTo.value && dateTo.value <= from) {
-            dateTo.value = '';
-        }
-
-        /* Auto-focus TO so the user continues naturally */
+        dateTo.min = getNextDay(from);
+        if (dateTo.value && dateTo.value <= from) dateTo.value = '';
         dateTo.focus();
     });
 
-    /* Also enforce: TO cannot be same or before FROM on direct change */
     dateTo.addEventListener('change', function () {
         const from = dateFrom.value;
         if (!from || !this.value) return;
-
         if (this.value <= from) {
             this.value = '';
             showAlert('The "To" date must be after the "From" date.', 'error');
@@ -228,7 +176,6 @@ function attachAutocomplete(input) {
         filtered.forEach(function (val) {
             const li = document.createElement('li');
             li.textContent = val;
-            li.setAttribute('data-val', val);
             li.addEventListener('mousedown', function (e) {
                 e.preventDefault();
                 input.value = val;
@@ -240,10 +187,7 @@ function attachAutocomplete(input) {
         ul.style.display = 'block';
     }
 
-    function closeDropdown() {
-        ul.style.display = 'none';
-        ul.innerHTML = '';
-    }
+    function closeDropdown() { ul.style.display = 'none'; ul.innerHTML = ''; }
 
     input.addEventListener('input', function () {
         showError('');
@@ -260,28 +204,17 @@ function attachAutocomplete(input) {
     input.addEventListener('keydown', function (e) {
         const items = ul.querySelectorAll('li');
         if (!items.length) return;
-        let activeIndex = Array.from(items).findIndex(function (li) {
-            return li.classList.contains('active');
-        });
+        let idx = Array.from(items).findIndex(function (li) { return li.classList.contains('active'); });
 
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            activeIndex = Math.min(activeIndex + 1, items.length - 1);
-        } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            activeIndex = Math.max(activeIndex - 1, 0);
-        } else if (e.key === 'Enter' && activeIndex >= 0) {
-            e.preventDefault();
-            input.value = items[activeIndex].textContent;
-            showError('');
-            closeDropdown();
-            return;
-        } else if (e.key === 'Escape') {
-            closeDropdown(); return;
-        } else { return; }
+        if (e.key === 'ArrowDown')    { e.preventDefault(); idx = Math.min(idx + 1, items.length - 1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx - 1, 0); }
+        else if (e.key === 'Enter' && idx >= 0) {
+            e.preventDefault(); input.value = items[idx].textContent; showError(''); closeDropdown(); return;
+        } else if (e.key === 'Escape') { closeDropdown(); return; }
+        else { return; }
 
-        items.forEach(function (li, i) { li.classList.toggle('active', i === activeIndex); });
-        if (activeIndex >= 0) items[activeIndex].scrollIntoView({ block: 'nearest' });
+        items.forEach(function (li, i) { li.classList.toggle('active', i === idx); });
+        if (idx >= 0) items[idx].scrollIntoView({ block: 'nearest' });
     });
 
     input.addEventListener('blur', function () {
@@ -290,61 +223,74 @@ function attachAutocomplete(input) {
             const typed = input.value.trim().toUpperCase();
             if (!typed) return;
             if (options.some(function (o) { return o === typed; })) {
-                input.value = typed;
-                showError('');
+                input.value = typed; showError('');
             } else {
-                input.value = '';
-                showError('Please select a valid option from the list.');
+                input.value = ''; showError('Please select a valid option from the list.');
             }
         }, 160);
     });
 
-    document.addEventListener('click', function (e) {
-        if (!wrap.contains(e.target)) closeDropdown();
-    });
+    document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) closeDropdown(); });
 }
 
-function attachRateValidationToRow(row) {
-    /* Rate inputs don't have a joreg-field-wrap by default — wrap them */
-    const rateInputs = row.querySelectorAll('input[name="rate[]"]');
-    rateInputs.forEach(function (input) {
-        /* Wrap in joreg-field-wrap if not already wrapped */
-        if (!input.closest('.joreg-field-wrap')) {
-            const wrap = document.createElement('div');
-            wrap.className = 'joreg-field-wrap';
-            input.parentNode.insertBefore(wrap, input);
-            wrap.appendChild(input);
-            const errSpan = document.createElement('span');
-            errSpan.className = 'joreg-field-error';
-            wrap.appendChild(errSpan);
-        }
-        attachRateValidation(input);
-    });
+function buildJORowHTML(isFirst) {
+    const btn = isFirst
+        ? '<button type="button" class="joreg-btn-add-row" onclick="addEntryRow()" title="Add another row">+</button>'
+        : '<button type="button" class="joreg-btn-remove-row" onclick="removeRow(this)" title="Remove row">×</button>';
+
+    return (
+        '<div class="joreg-field-wrap">' +
+            '<input type="text" class="joreg-input joreg-name-input" name="name[]"' +
+            '       placeholder="Full name" autocomplete="off" required>' +
+            '<span class="joreg-field-error"></span>' +
+        '</div>' +
+        '<div class="joreg-field-wrap joreg-ac-wrap">' +
+            '<input type="text" class="joreg-input joreg-ac-input" name="designation[]"' +
+            '       placeholder="Designation" data-list="DESIGNATION_LIST" autocomplete="off" required>' +
+            '<span class="joreg-field-error"></span>' +
+            '<ul class="joreg-ac-dropdown"></ul>' +
+        '</div>' +
+        '<div class="joreg-field-wrap joreg-ac-wrap">' +
+            '<input type="text" class="joreg-input joreg-ac-input" name="funding_charges[]"' +
+            '       placeholder="Funding charges" data-list="FUNDING_CHARGES_LIST" autocomplete="off" required>' +
+            '<span class="joreg-field-error"></span>' +
+            '<ul class="joreg-ac-dropdown"></ul>' +
+        '</div>' +
+        '<div class="joreg-field-wrap">' +
+            '<input type="text" class="joreg-input" name="rate[]" placeholder="0.00" required>' +
+            '<span class="joreg-field-error"></span>' +
+        '</div>' +
+        btn
+    );
 }
 
+function initJORow(row) {
+    row.querySelectorAll('.joreg-name-input').forEach(attachNameValidation);
+    row.querySelectorAll('.joreg-ac-input').forEach(attachAutocomplete);
+    row.querySelectorAll('input[name="rate[]"]').forEach(attachRateValidation);
+}
 
 (function () {
-
     const rowsContainer  = document.getElementById('joregRows');
     const pdfInput       = document.getElementById('joregPdfFile');
     const pdfNameEl      = document.getElementById('joregPdfName');
     const refFolderInput = document.getElementById('joregRefFolder');
+    const bulkCountInput = document.getElementById('joregBulkCount');
 
     /* Init first row */
-    rowsContainer.querySelectorAll('.joreg-name-input').forEach(attachNameValidation);
-    rowsContainer.querySelectorAll('.joreg-ac-input').forEach(attachAutocomplete);
-    rowsContainer.querySelectorAll('.joreg-entry-row').forEach(attachRateValidationToRow);
+    if (rowsContainer) {
+        rowsContainer.querySelectorAll('.joreg-entry-row').forEach(initJORow);
+    }
 
-    /* Init date logic */
     initDateLogic();
 
-    /* ── PDF selected → auto-fill Reference Folder ── */
+    /* PDF → auto-fill Reference Folder */
     if (pdfInput) {
         pdfInput.addEventListener('change', function () {
             if (this.files && this.files[0]) {
                 const fileName = this.files[0].name;
                 const baseName = fileName.replace(/\.[^/.]+$/, '');
-                pdfNameEl.textContent = '📎 ' + fileName;
+                pdfNameEl.textContent = ' ' + fileName;
                 if (refFolderInput && refFolderInput.value.trim() === '') {
                     refFolderInput.value = baseName.toUpperCase();
                 }
@@ -354,45 +300,38 @@ function attachRateValidationToRow(row) {
         });
     }
 
-    /* ── Add new entry row ── */
+    /* ── Add single row ── */
     window.addEntryRow = function () {
         const row = document.createElement('div');
         row.className = 'joreg-entry-row';
-        row.innerHTML =
-            '<div class="joreg-field-wrap">' +
-                '<input type="text" class="joreg-input joreg-name-input" name="name[]"' +
-                '       placeholder="Full name" autocomplete="off" required>' +
-                '<span class="joreg-field-error"></span>' +
-            '</div>' +
-            '<div class="joreg-field-wrap joreg-ac-wrap">' +
-                '<input type="text" class="joreg-input joreg-ac-input" name="designation[]"' +
-                '       placeholder="Designation" data-list="DESIGNATION_LIST"' +
-                '       autocomplete="off" required>' +
-                '<span class="joreg-field-error"></span>' +
-                '<ul class="joreg-ac-dropdown"></ul>' +
-            '</div>' +
-            '<div class="joreg-field-wrap joreg-ac-wrap">' +
-                '<input type="text" class="joreg-input joreg-ac-input" name="funding_charges[]"' +
-                '       placeholder="Funding charges" data-list="FUNDING_CHARGES_LIST"' +
-                '       autocomplete="off" required>' +
-                '<span class="joreg-field-error"></span>' +
-                '<ul class="joreg-ac-dropdown"></ul>' +
-            '</div>' +
-            /* Rate already wrapped in joreg-field-wrap for error display */
-            '<div class="joreg-field-wrap">' +
-                '<input type="text" class="joreg-input" name="rate[]" placeholder="0.00" required>' +
-                '<span class="joreg-field-error"></span>' +
-            '</div>' +
-            '<button type="button" class="joreg-btn-remove-row"' +
-            '        onclick="removeRow(this)" title="Remove row">×</button>';
-
+        row.innerHTML = buildJORowHTML(false);
         rowsContainer.appendChild(row);
-        row.querySelectorAll('.joreg-name-input').forEach(attachNameValidation);
-        row.querySelectorAll('.joreg-ac-input').forEach(attachAutocomplete);
-        row.querySelectorAll('input[name="rate[]"]').forEach(attachRateValidation);
+        initJORow(row);
+        row.querySelector('input').focus();
     };
 
-    /* ── Remove entry row ── */
+    /* ── Bulk-add rows ── */
+    window.joregBulkAdd = function () {
+        const count = parseInt((bulkCountInput && bulkCountInput.value) || '1', 10);
+        if (isNaN(count) || count < 1) {
+            showAlert('Please enter a valid number of rows to add (minimum 1).', 'error');
+            return;
+        }
+        if (count > 50) {
+            showAlert('You can add at most 50 rows at a time.', 'error');
+            return;
+        }
+        for (let i = 0; i < count; i++) {
+            const row = document.createElement('div');
+            row.className = 'joreg-entry-row';
+            row.innerHTML = buildJORowHTML(false);
+            rowsContainer.appendChild(row);
+            initJORow(row);
+        }
+        rowsContainer.lastElementChild.querySelector('input').focus();
+    };
+
+    /* ── Remove row ── */
     window.removeRow = function (btn) {
         const row     = btn.closest('.joreg-entry-row');
         const allRows = rowsContainer.querySelectorAll('.joreg-entry-row');
@@ -415,71 +354,40 @@ function attachRateValidationToRow(row) {
         const dateTo    = document.getElementById('joregDateTo').value.trim();
         const refFolder = refFolderInput ? refFolderInput.value.trim() : '';
 
-        if (!dateFrom || !dateTo) {
-            showAlert('Please fill in both FROM and TO dates.', 'error');
-            return;
-        }
+        if (!dateFrom || !dateTo) { showAlert('Please fill in both FROM and TO dates.', 'error'); return; }
+        if (dateTo <= dateFrom)   { showAlert('The "To" date must be after the "From" date.', 'error'); document.getElementById('joregDateTo').focus(); return; }
+        if (!refFolder)           { showAlert('Please enter a Reference Folder name or upload a PDF.', 'error'); return; }
 
-        if (dateTo <= dateFrom) {
-            showAlert('The "To" date must be after the "From" date.', 'error');
-            document.getElementById('joregDateTo').focus();
-            return;
-        }
+        let allValid = true;
 
-        if (!refFolder) {
-            showAlert('Please enter a Reference Folder name or upload a PDF.', 'error');
-            return;
-        }
-
-        /* Validate name inputs */
-        let nameOk = true;
         rowsContainer.querySelectorAll('.joreg-name-input').forEach(function (inp) {
-            if (!validateNameInput(inp)) nameOk = false;
+            if (!validateNameInput(inp)) allValid = false;
         });
-        if (!nameOk) {
-            showAlert('Please fix the name errors before saving.', 'error');
-            return;
-        }
 
-        /* Validate rate inputs */
-        let rateOk = true;
         rowsContainer.querySelectorAll('input[name="rate[]"]').forEach(function (inp) {
-            if (!validateRateInput(inp)) rateOk = false;
+            if (!validateRateInput(inp)) allValid = false;
         });
-        if (!rateOk) {
-            showAlert('Please enter valid rate values (numbers only).', 'error');
-            return;
-        }
 
-        /* Validate autocomplete inputs */
-        let acOk = true;
         rowsContainer.querySelectorAll('.joreg-ac-input').forEach(function (inp) {
             const listKey = inp.dataset.list;
             const options = (listKey === 'DESIGNATION_LIST' ? DESIGNATION_LIST : FUNDING_CHARGES_LIST)
                                 .map(function (v) { return v.toUpperCase(); });
-            const val = inp.value.trim().toUpperCase();
+            const val   = inp.value.trim().toUpperCase();
+            const errEl = inp.closest('.joreg-ac-wrap')?.querySelector('.joreg-field-error');
             if (!val || !options.some(function (o) { return o === val; })) {
-                acOk = false;
-                const errEl = inp.closest('.joreg-ac-wrap')?.querySelector('.joreg-field-error');
-                if (errEl) {
-                    errEl.textContent   = 'Please select a valid option from the list.';
-                    errEl.style.display = 'block';
-                }
+                if (errEl) { errEl.textContent = 'Please select a valid option from the list.'; errEl.style.display = 'block'; }
                 inp.classList.add('joreg-input--error');
+                allValid = false;
             }
         });
-        if (!acOk) {
-            showAlert('Please fix the highlighted fields before saving.', 'error');
-            return;
-        }
 
-        /* Check all other required fields */
-        let allFilled = true;
+        /* Required fields check */
         rowsContainer.querySelectorAll('input[required]').forEach(function (el) {
-            if (el.value.trim() === '') allFilled = false;
+            if (el.value.trim() === '') allValid = false;
         });
-        if (!allFilled) {
-            showAlert('Please fill in all fields in every row.', 'error');
+
+        if (!allValid) {
+            showAlert('Please fix the highlighted errors before saving.', 'error');
             return;
         }
 
@@ -490,8 +398,8 @@ function attachRateValidationToRow(row) {
             'You are about to save <strong>' + totalRows + '</strong> record(s).<br>' +
             '<span style="font-size:0.82rem;color:#7a9e7e;">' +
                 'PDF: ' + (hasPdf
-                    ? '✅ Attached (existing file will be replaced if same name)'
-                    : '❌ None — will show as <em>Unavailable</em>') +
+                    ? 'Attached (existing file will be replaced if same name)'
+                    : 'None — will show as <em>Unavailable</em>') +
             '</span><br><br>Proceed?',
             function () { form.submit(); }
         );

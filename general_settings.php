@@ -240,6 +240,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit;
     }
 
+    if ($action === 'add_position') {
+    $name = trim($_POST['name'] ?? '');
+    if ($name === '') { echo json_encode(['success' => false, 'message' => 'Name cannot be empty.']); exit; }
+    try {
+        $stmt = $conn->prepare("INSERT INTO `position_titles` (`p_name`) VALUES (:name)");
+        $stmt->execute([':name' => $name]);
+        echo json_encode(['success' => true, 'id' => (int)$conn->lastInsertId(), 'name' => $name]);
+    } catch (PDOException $e) { echo json_encode(['success' => false, 'message' => 'Database error.']); }
+    exit;
+    }
+
+    if ($action === 'delete_position') {
+        $id = (int)($_POST['id'] ?? 0);
+        try {
+            $conn->prepare("DELETE FROM `position_titles` WHERE `id` = :id")->execute([':id' => $id]);
+            echo json_encode(['success' => true]);
+        } catch (PDOException $e) { echo json_encode(['success' => false, 'message' => 'Database error.']); }
+        exit;
+    }
+
     if ($action === 'add_funding') {
         $name = trim($_POST['name'] ?? '');
         if ($name === '') { echo json_encode(['success' => false, 'message' => 'Name cannot be empty.']); exit; }
@@ -285,7 +305,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
 $designations    = $conn->query("SELECT `d_id`, `d_name` FROM `designation_list` ORDER BY `d_id` ASC")->fetchAll();
 $funding_charges = $conn->query("SELECT `fc_id`, `fc_name` FROM `funding_charges_list` ORDER BY `fc_id` ASC")->fetchAll();
-$ref_folders = $conn->query("SELECT MIN(`jo_id`) as `jo_id`, `ref_folder` FROM `jo_contracts` GROUP BY `ref_folder` ORDER BY `ref_folder` DESC")->fetchAll();
+$position_titles = $conn->query("SELECT `id`, `p_name` FROM `position_titles` ORDER BY `id` ASC")->fetchAll(); // ← ADD THIS
+$ref_folders     = $conn->query("SELECT MIN(`jo_id`) as `jo_id`, `ref_folder` FROM `jo_contracts` GROUP BY `ref_folder` ORDER BY `ref_folder` DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -362,6 +383,34 @@ $ref_folders = $conn->query("SELECT MIN(`jo_id`) as `jo_id`, `ref_folder` FROM `
                                 <input class="gs-input" id="designation-input" type="text" placeholder="Enter designation name…" maxlength="100" style="text-transform:uppercase;" autocomplete="off">
                                 <span class="gs-input-error" id="designation-input-error"></span>
                                 <button class="gs-btn-save" onclick="saveRecord('designation')">Save Changes</button>
+                            </div>
+                        </div>
+
+                        <!-- POSITION TITLES -->
+                        <div class="gs-panel">
+                            <div class="gs-panel-title">Position Titles List</div>
+                            <div class="gs-table-wrapper">
+                                <table class="gs-table">
+                                    <thead><tr><th>No.</th><th>Position Title</th><th></th></tr></thead>
+                                    <tbody id="position-body">
+                                        <?php if (!empty($position_titles)): $i = 1; foreach ($position_titles as $row): ?>
+                                        <tr data-id="<?= $row['id'] ?>">
+                                            <td><?= $i++ ?></td>
+                                            <td><?= htmlspecialchars($row['p_name']) ?></td>
+                                            <td><button class="gs-btn-delete" onclick="deleteRecord('position', <?= $row['id'] ?>, this)" title="Delete"><img src="assets/icons/delete_icon.png" alt="Delete"></button></td>
+                                        </tr>
+                                        <?php endforeach; else: ?>
+                                        <tr class="gs-empty-row" id="position-empty"><td colspan="3">No position titles yet.</td></tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="position-alert" class="gs-alert"></div>
+                            <div class="gs-add-section">
+                                <label class="gs-add-label" for="position-input">Add New Position Title</label>
+                                <input class="gs-input" id="position-input" type="text" placeholder="Enter position title…" maxlength="100" style="text-transform:uppercase;" autocomplete="off">
+                                <span class="gs-input-error" id="position-input-error"></span>
+                                <button class="gs-btn-save" onclick="saveRecord('position')">Save Changes</button>
                             </div>
                         </div>
 

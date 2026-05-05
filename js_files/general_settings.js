@@ -177,13 +177,13 @@ function escapeHtml(str) {
 }
 
 function saveRecord(type) {
-    const inputId      = type === 'designation' ? 'designation-input'       : 'funding-input';
-    const errorElId    = type === 'designation' ? 'designation-input-error' : 'funding-input-error';
-    const panelAlertId = type === 'designation' ? 'designation-alert'       : 'funding-alert';
-    const tbodyId      = type === 'designation' ? 'designation-body'        : 'funding-body';
-    const emptyId      = type === 'designation' ? 'designation-empty'       : 'funding-empty';
-    const action       = type === 'designation' ? 'add_designation'         : 'add_funding';
-    const label        = type === 'designation' ? 'designation'             : 'funding charge';
+    const inputId      = type === 'designation' ? 'designation-input'       : type === 'position' ? 'position-input'       : 'funding-input';
+    const errorElId    = type === 'designation' ? 'designation-input-error' : type === 'position' ? 'position-input-error' : 'funding-input-error';
+    const panelAlertId = type === 'designation' ? 'designation-alert'       : type === 'position' ? 'position-alert'       : 'funding-alert';
+    const tbodyId      = type === 'designation' ? 'designation-body'        : type === 'position' ? 'position-body'        : 'funding-body';
+    const emptyId      = type === 'designation' ? 'designation-empty'       : type === 'position' ? 'position-empty'       : 'funding-empty';
+    const action       = type === 'designation' ? 'add_designation'         : type === 'position' ? 'add_position'         : 'add_funding';
+    const label        = type === 'designation' ? 'designation'             : type === 'position' ? 'position title'       : 'funding charge';
 
     const input = document.getElementById(inputId);
     const name  = input.value.trim().toUpperCase();
@@ -243,10 +243,10 @@ function saveRecord(type) {
 }
 
 function deleteRecord(type, id, btn) {
-    const action       = type === 'designation' ? 'delete_designation' : 'delete_funding';
-    const tbodyId      = type === 'designation' ? 'designation-body'   : 'funding-body';
-    const emptyId      = type === 'designation' ? 'designation-empty'  : 'funding-empty';
-    const panelAlertId = type === 'designation' ? 'designation-alert'  : 'funding-alert';
+const action       = type === 'designation' ? 'delete_designation' : type === 'position' ? 'delete_position' : 'delete_funding';
+    const tbodyId      = type === 'designation' ? 'designation-body'   : type === 'position' ? 'position-body'   : 'funding-body';
+    const emptyId      = type === 'designation' ? 'designation-empty'  : type === 'position' ? 'position-empty'  : 'funding-empty';
+    const panelAlertId = type === 'designation' ? 'designation-alert'  : type === 'position' ? 'position-alert'  : 'funding-alert';
 
     const row      = btn.closest('tr');
     const rowName  = row.cells[1].textContent.trim();
@@ -379,12 +379,17 @@ function attachRefFolderSearch() {
 
 document.addEventListener('DOMContentLoaded', function () {
     attachInputValidation('designation-input', 'designation-input-error');
+    attachInputValidation('position-input',    'position-input-error');  
     attachInputValidation('funding-input',     'funding-input-error');
 
     document.getElementById('designation-input')
         .addEventListener('keydown', function (e) {
             if (e.key === 'Enter') saveRecord('designation');
         });
+    document.getElementById('position-input')                             
+        .addEventListener('keydown', function (e) {                      
+            if (e.key === 'Enter') saveRecord('position');               
+        });                                                              
     document.getElementById('funding-input')
         .addEventListener('keydown', function (e) {
             if (e.key === 'Enter') saveRecord('funding');

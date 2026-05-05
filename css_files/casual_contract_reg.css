@@ -1,4 +1,4 @@
-.joreg-wrapper {
+.casc-wrapper {
     padding: 28px 32px;
     display: flex;
     flex-direction: column;
@@ -7,7 +7,7 @@
     overflow-y: auto;
 }
 
-.joreg-title {
+.casc-title {
     font-family: 'Barlow', sans-serif;
     font-size: 1.65rem;
     font-weight: 800;
@@ -16,7 +16,7 @@
     text-transform: uppercase;
 }
 
-.joreg-card {
+.casc-card {
     background: #ffffff;
     border-radius: 12px;
     padding: 28px 32px 32px;
@@ -26,7 +26,7 @@
     gap: 20px;
 }
 
-.joreg-card-title {
+.casc-card-title {
     font-family: 'Barlow', sans-serif;
     font-size: 1.05rem;
     font-weight: 800;
@@ -36,7 +36,8 @@
     padding-bottom: 4px;
 }
 
-.joreg-top-row {
+/* ── Top Row ── */
+.casc-top-row {
     display: flex;
     align-items: flex-end;
     gap: 24px;
@@ -44,13 +45,13 @@
     margin-bottom: 10px;
 }
 
-.joreg-top-group {
+.casc-top-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.joreg-top-group-label {
+.casc-top-group-label {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.72rem;
     font-weight: 700;
@@ -60,13 +61,13 @@
     text-align: center;
 }
 
-.joreg-top-inner {
+.casc-top-inner {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.joreg-field-label {
+.casc-field-label {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
@@ -75,7 +76,7 @@
     white-space: nowrap;
 }
 
-.joreg-divider {
+.casc-divider {
     height: 2px;
     background: #2a5c30;
     border-radius: 2px;
@@ -83,7 +84,7 @@
 }
 
 /* ── Inputs ── */
-.joreg-input {
+.casc-input {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.85rem;
     color: #1a2e1c;
@@ -96,33 +97,64 @@
     width: 100%;
 }
 
-.joreg-input:focus {
+.casc-input:focus {
     background: #d4e8d4;
     box-shadow: 0 0 0 2px #2a5c3055;
 }
 
-.joreg-input::placeholder {
+.casc-input::placeholder {
     color: #a0b8a0;
     font-size: 0.78rem;
 }
 
-.joreg-input.w-date { width: 140px; }
-.joreg-input.w-ref  { width: 200px; }
+.casc-input.w-date { width: 140px; }
+.casc-input.w-ref  { width: 200px; }
 
-.joreg-input--error {
+.casc-input--error {
     background: #fde8e8 !important;
     box-shadow: 0 0 0 2px #c0392b55 !important;
 }
 
+/* ── Select ── */
+.casc-select {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.85rem;
+    color: #1a2e1c;
+    background: #e8f0e8;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    outline: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a3d1f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+.casc-select:focus {
+    background-color: #d4e8d4;
+    box-shadow: 0 0 0 2px #2a5c3055;
+}
+
+.casc-select--error {
+    background-color: #fde8e8 !important;
+    box-shadow: 0 0 0 2px #c0392b55 !important;
+}
+
 /* ── Field wrap ── */
-.joreg-field-wrap {
+.casc-field-wrap {
     display: flex;
     flex-direction: column;
     gap: 3px;
     min-width: 0;
 }
 
-.joreg-field-error {
+.casc-field-error {
     font-size: 0.7rem;
     color: #c0392b;
     font-family: 'Source Sans 3', sans-serif;
@@ -132,12 +164,12 @@
 }
 
 /* ── Autocomplete wrap ── */
-.joreg-ac-wrap {
+.casc-ac-wrap {
     position: relative;
 }
 
 /* ── Autocomplete dropdown ── */
-.joreg-ac-dropdown {
+.casc-ac-dropdown {
     display: none;
     position: absolute;
     top: calc(100% + 2px);
@@ -155,11 +187,11 @@
     overflow-y: auto;
 }
 
-.joreg-ac-dropdown:not(:empty) {
+.casc-ac-dropdown:not(:empty) {
     display: block;
 }
 
-.joreg-ac-dropdown li {
+.casc-ac-dropdown li {
     padding: 8px 14px;
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.83rem;
@@ -169,17 +201,26 @@
     list-style: none;
 }
 
-.joreg-ac-dropdown li:hover,
-.joreg-ac-dropdown li.active {
+.casc-ac-dropdown li:hover,
+.casc-ac-dropdown li.active {
     background: #e8f0e8;
     color: #1a3d1f;
     font-weight: 600;
 }
 
-.joreg-ac-dropdown::-webkit-scrollbar { width: 6px; }
-.joreg-ac-dropdown::-webkit-scrollbar-track { background: transparent; }
-.joreg-ac-dropdown::-webkit-scrollbar-thumb { background: #b2cfb5; border-radius: 3px; }
-.joreg-bulk-label {
+.casc-ac-dropdown::-webkit-scrollbar { width: 6px; }
+.casc-ac-dropdown::-webkit-scrollbar-track { background: transparent; }
+.casc-ac-dropdown::-webkit-scrollbar-thumb { background: #b2cfb5; border-radius: 3px; }
+
+/* ── PDF Upload Row ── */
+.casc-pdf-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.casc-pdf-label-text {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
@@ -187,8 +228,42 @@
     text-transform: uppercase;
     white-space: nowrap;
 }
- 
-.joreg-bulk-input {
+
+.casc-pdf-or {
+    font-size: 0.75rem;
+    color: #7a9e7e;
+    font-style: italic;
+}
+
+.casc-pdf-name {
+    font-size: 0.78rem;
+    color: #2a5c30;
+    font-weight: 600;
+    font-style: italic;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ── Bulk-add row count input ── */
+.casc-bulk-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.casc-bulk-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1a3d1f;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.casc-bulk-input {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 0.85rem;
     color: #1a2e1c;
@@ -201,13 +276,13 @@
     text-align: center;
     transition: background 0.2s, box-shadow 0.2s;
 }
- 
-.joreg-bulk-input:focus {
+
+.casc-bulk-input:focus {
     background: #d4e8d4;
     box-shadow: 0 0 0 2px #2a5c3055;
 }
- 
-.joreg-bulk-btn {
+
+.casc-bulk-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -224,54 +299,21 @@
     cursor: pointer;
     transition: background 0.2s;
 }
- 
-.joreg-bulk-btn:hover { background: #1a3d1f; }
 
-/* ── PDF Upload Row ── */
-.joreg-pdf-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-}
+.casc-bulk-btn:hover { background: #1a3d1f; }
 
-.joreg-pdf-label-text {
-    font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #1a3d1f;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.joreg-pdf-or {
-    font-size: 0.75rem;
-    color: #7a9e7e;
-    font-style: italic;
-}
-
-.joreg-pdf-name {
-    font-size: 0.78rem;
-    color: #2a5c30;
-    font-weight: 600;
-    font-style: italic;
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* ── Grid headers ── */
-.joreg-grid-header {
+/* ── Grid Headers ── */
+/* Columns: first_name | last_name | middle_name | ext | position_title | pay_grade | daily_wage | appt_nature | + */
+.casc-grid-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 100px 36px;
+    grid-template-columns: 1.2fr 1.2fr 70px 1fr 1.4fr 70px 90px 1fr 36px;
     gap: 8px;
     padding: 0 4px;
 }
 
-.joreg-grid-col-label {
+.casc-grid-col-label {
     font-family: 'Source Sans 3', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
     color: #1a3d1f;
     text-transform: uppercase;
@@ -279,27 +321,27 @@
 }
 
 /* ── Entry rows ── */
-.joreg-rows-container {
+.casc-rows-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.joreg-entry-row {
+.casc-entry-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 100px 36px;
+    grid-template-columns: 1.2fr 1.2fr 70px 1fr 1.4fr 70px 90px 1fr 36px;
     gap: 8px;
     align-items: start;
-    animation: rowSlideIn 0.2s ease;
+    animation: cascRowSlideIn 0.2s ease;
 }
 
-@keyframes rowSlideIn {
+@keyframes cascRowSlideIn {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Buttons ── */
-.joreg-btn-add-row {
+.casc-btn-add-row {
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -317,12 +359,12 @@
     margin-top: 4px;
 }
 
-.joreg-btn-add-row:hover {
+.casc-btn-add-row:hover {
     background: #2a5c30;
     transform: scale(1.08);
 }
 
-.joreg-btn-remove-row {
+.casc-btn-remove-row {
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -340,19 +382,19 @@
     margin-top: 4px;
 }
 
-.joreg-btn-remove-row:hover {
+.casc-btn-remove-row:hover {
     background: #c0392b33;
     transform: scale(1.08);
 }
 
-.joreg-footer {
+.casc-footer {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
     padding-top: 8px;
 }
 
-.joreg-btn-upload {
+.casc-btn-upload {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -372,9 +414,9 @@
     overflow: hidden;
 }
 
-.joreg-btn-upload:hover { background: #2a5c30; }
+.casc-btn-upload:hover { background: #2a5c30; }
 
-.joreg-file-input {
+.casc-file-input {
     position: absolute;
     inset: 0;
     opacity: 0;
@@ -382,7 +424,7 @@
     width: 100%;
 }
 
-.joreg-btn-save {
+.casc-btn-save {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -400,10 +442,10 @@
     transition: background 0.2s;
 }
 
-.joreg-btn-save:hover { background: #1a3d1f; }
+.casc-btn-save:hover { background: #1a3d1f; }
 
 /* ── Alert ── */
-.joreg-alert {
+.casc-alert {
     padding: 10px 16px;
     border-radius: 8px;
     font-size: 0.85rem;
@@ -411,16 +453,24 @@
     display: none;
 }
 
-.joreg-alert.success {
+.casc-alert.success {
     background: #d4edda;
     color: #1a3d1f;
     border: 1px solid #b2cfb5;
     display: block;
 }
 
-.joreg-alert.error {
+.casc-alert.error {
     background: #fde8e8;
     color: #c0392b;
     border: 1px solid #f0b8b8;
     display: block;
+}
+
+/* ── Responsive tweaks ── */
+@media (max-width: 1200px) {
+    .casc-grid-header,
+    .casc-entry-row {
+        grid-template-columns: 1fr 1fr 60px 1fr 1.2fr 60px 80px 1fr 36px;
+    }
 }

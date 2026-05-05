@@ -35,15 +35,9 @@
 
 .gs-panels {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
     margin-bottom: 24px;
-}
-
-@media (max-width: 900px) {
-    .gs-panels {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* ── Individual panel ── */

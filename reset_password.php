@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     <input type="password" class="form-control login-input" id="new_password"
                                         name="new_password" required minlength="8">
                                     <button type="button" class="pass-toggle" id="toggleNewPass" aria-label="Toggle new password visibility">
-                                        <img src="img/password_invisible_icon.png" id="eyeNewPassIcon" alt="Show password">
+                                        <img src="assets/icons/password_invisible_icon.png" id="eyeNewPassIcon" alt="Show password">
                                     </button>
                                 </div>
                                 <p class="password-hint">Minimum 8 characters.</p>
@@ -155,5 +155,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
     </div>
+    <script src="js_files/reset_password.js"></script>
 </body>
 </html>

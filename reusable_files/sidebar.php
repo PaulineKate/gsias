@@ -59,13 +59,13 @@ $isUser  = isset($_SESSION['user_level']) && $_SESSION['user_level'] === 'user';
 
             <!-- Casual Employee List — admin only -->
             <?php if ($isAdmin): ?>
-            <li class="nav-item <?= in_array($currentPage, ['casual_employees.php']) ? 'active' : '' ?>">
-                <a href="casual_employees.php" class="nav-link">
+            <li class="nav-item <?= in_array($currentPage, ['casual_contracts.php', 'casual_contract_reg.php']) ? 'active' : '' ?>">
+                <a href="casual_contracts.php" class="nav-link">
                     <span class="nav-icon">
                         <img src="assets/icons/casual_employee_icon.png" alt="Casual Employee">
                     </span>
-                    <span class="nav-label">Casual Employee List</span>
-                    <?php if (in_array($currentPage, ['casual_employees.php'])): ?>
+                    <span class="nav-label">Casual Contract List</span>
+                    <?php if (in_array($currentPage, ['casual_contracts.php', 'casual_contract_reg.php'])): ?>
                         <span class="nav-active-bar"></span>
                     <?php endif; ?>
                 </a>
