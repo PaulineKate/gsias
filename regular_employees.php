@@ -12,7 +12,7 @@ try {
             `emp_standing`, `emp_status`
             FROM `employee_info`
             WHERE emp_standing = 'regular' AND emp_status = 1
-            ORDER BY emp_id DESC"; 
+            ORDER BY emp_id ASC"; 
 
     $stmt        = $conn->query($sql);
     $reg_records = $stmt->fetchAll();

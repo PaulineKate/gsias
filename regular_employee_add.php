@@ -43,15 +43,15 @@ function valid_emp_id(string $v): bool { return (bool) preg_match('/^\d{4}\.\d-\
 
 /* ── Handle form submission ── */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $emp_id       = trim($_POST['emp_id']       ?? '');
-    $last_name    = trim($_POST['last_name']    ?? '');
-    $first_name   = trim($_POST['first_name']   ?? '');
-    $middle_name  = trim($_POST['middle_name']  ?? '');
-    $designation  = trim($_POST['designation']  ?? '');
-    $salary       = trim($_POST['salary']       ?? '');
-    $emp_standing = in_array($_POST['emp_standing'] ?? '', ['regular','casual'])
-                    ? $_POST['emp_standing'] : 'regular';
-    $department   = 'PGSO';
+    $emp_id         = trim($_POST['emp_id']         ?? '');
+    $last_name      = trim($_POST['last_name']      ?? '');
+    $first_name     = trim($_POST['first_name']     ?? '');
+    $middle_name    = trim($_POST['middle_name']    ?? '');
+    $name_extension = trim($_POST['name_extension'] ?? '');
+    $designation    = trim($_POST['designation']    ?? '');
+    $salary         = trim($_POST['salary']         ?? '');
+    $emp_standing   = 'regular';
+    $department     = 'PGSO';
 
     $errors = [];
 
@@ -85,23 +85,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $stmt = $conn->prepare(
                 "INSERT INTO `employee_info`
-                 (`emp_id`,`last_name`,`first_name`,`middle_name`,`emp_designation`,
+                 (`emp_id`,`last_name`,`first_name`,`middle_name`,`name_extension`,`emp_designation`,
                   `salary`,`department`,`emp_standing`,`emp_status`)
-                 VALUES (:emp_id,:last_name,:first_name,:middle_name,:designation,
+                 VALUES (:emp_id,:last_name,:first_name,:middle_name,:name_extension,:designation,
                          :salary,:department,:emp_standing,1)"
             );
             $stmt->execute([
-                ':emp_id'       => strtoupper($emp_id),
-                ':last_name'    => strtoupper($last_name),
-                ':first_name'   => strtoupper($first_name),
-                ':middle_name'  => strtoupper($middle_name),
-                ':designation'  => strtoupper($designation),
-                ':salary'       => $salary,
-                ':department'   => $department,
-                ':emp_standing' => $emp_standing,
+                ':emp_id'         => strtoupper($emp_id),
+                ':last_name'      => strtoupper($last_name),
+                ':first_name'     => strtoupper($first_name),
+                ':middle_name'    => strtoupper($middle_name),
+                ':name_extension' => strtoupper($name_extension),
+                ':designation'    => strtoupper($designation),
+                ':salary'         => $salary,
+                ':department'     => $department,
+                ':emp_standing'   => $emp_standing,
             ]);
             $alert_msg  = 'Employee record saved successfully.';
             $alert_type = 'success';
+            $_POST      = []; /* clear repopulated values after successful save */
         } catch (PDOException $e) {
             $alert_msg  = 'Database error: ' . htmlspecialchars($e->getMessage());
             $alert_type = 'error';
@@ -190,6 +192,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="emp-field-error" id="errMiddleName"></span>
                             </div>
 
+                            <div class="emp-group emp-group--ext">
+                                <label class="emp-label">Name Extension</label>
+                                <div class="emp-input-wrap">
+                                    <input type="text" id="empNameExt" name="name_extension" class="emp-input"
+                                           placeholder="e.g. JR., SR., III" autocomplete="off" maxlength="10"
+                                           value="<?= htmlspecialchars($_POST['name_extension'] ?? '') ?>">
+                                    <button type="button" class="emp-clear-btn" data-target="empNameExt" aria-label="Clear">×</button>
+                                </div>
+                                <span class="emp-field-error" id="errNameExt"></span>
+                            </div>
+
                         </div>
 
                         <!-- Row 2: ID, Department, Standing -->
@@ -215,11 +228,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
 
                             <div class="emp-group">
-                                <label class="emp-label">Employee Standing <span class="emp-required">*</span></label>
-                                <select name="emp_standing" id="empStanding" class="emp-input emp-select" required>
-                                    <option value="regular" <?= (($_POST['emp_standing'] ?? 'regular') === 'regular' ? 'selected' : '') ?>>Regular</option>
-                                    <option value="casual"  <?= (($_POST['emp_standing'] ?? '') === 'casual' ? 'selected' : '') ?>>Casual</option>
-                                </select>
+                                <label class="emp-label">Employee Standing</label>
+                                <input type="text" name="emp_standing" id="empStanding" class="emp-input"
+                                       value="Regular" readonly>
                             </div>
 
                         </div>

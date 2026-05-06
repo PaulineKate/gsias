@@ -38,9 +38,41 @@
         if (btn) btn.style.display = input.value ? 'flex' : 'none';
     }
 
+    /** Reset every editable field and all error/status indicators */
+    function resetForm() {
+        const form = document.getElementById('empForm');
+
+        /* Clear all non-readonly inputs */
+        form.querySelectorAll('input:not([readonly])').forEach(inp => {
+            inp.value = '';
+            inp.classList.remove('emp-input--error');
+        });
+
+        /* Hide all field errors */
+        form.querySelectorAll('.emp-field-error').forEach(el => {
+            el.textContent = '';
+            el.style.display = 'none';
+        });
+
+        /* Hide all clear buttons */
+        form.querySelectorAll('.emp-clear-btn').forEach(btn => {
+            btn.style.display = 'none';
+        });
+
+        /* Reset Employee ID status indicators */
+        setIdStatus('', '');
+
+        /* Close designation dropdown if open */
+        closeDdGlobal();
+    }
+
     /* Auto-dismiss PHP-rendered alert on page load */
     const phpAlert = document.querySelector('.emp-alert.success, .emp-alert.error, .emp-alert.warning');
     if (phpAlert && phpAlert.id !== 'empAlert') {
+        /* If it's a success alert, also reset the form */
+        if (phpAlert.classList.contains('success')) {
+            resetForm();
+        }
         setTimeout(() => {
             phpAlert.style.transition = 'opacity 1s';
             phpAlert.style.opacity    = '0';
@@ -118,6 +150,30 @@
     attachNameInput(document.getElementById('empMiddleName'), false);
 
     /* ══════════════════════════════════════════════════
+       NAME EXTENSION — letters, spaces, hyphens,
+       apostrophes, AND periods allowed
+    ══════════════════════════════════════════════════ */
+    (function () {
+        const input = document.getElementById('empNameExt');
+        if (!input) return;
+
+        input.addEventListener('keydown', function (e) {
+            const nav = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','Home','End',' ','-',"'",'.'];
+            if (nav.includes(e.key) || /^[a-zA-ZÑñ]$/.test(e.key)) return;
+            e.preventDefault();
+            fieldErr(input, 'Only letters, spaces, hyphens, apostrophes, and periods are allowed.');
+        });
+
+        input.addEventListener('input', function () {
+            const pos = this.selectionStart;
+            this.value = this.value.toUpperCase();
+            this.setSelectionRange(pos, pos);
+            syncClear(this);
+            fieldErr(this, ''); /* optional field — no required error */
+        });
+    })();
+
+    /* ══════════════════════════════════════════════════
        EMPLOYEE ID — format + duplicate AJAX check
     ══════════════════════════════════════════════════ */
     (function () {
@@ -138,7 +194,7 @@
             statusEl.textContent = msg;
         }
 
-        /* export for clear button */
+        /* export for clear button + resetForm */
         window._empIdSetStatus = setStatus;
 
         function setErr(msg) {
@@ -187,7 +243,6 @@
 
         inp.addEventListener('input', function () {
             /* Auto-format digits into ####.#-### */
-            const caret = this.selectionStart;
             let d = this.value.replace(/[^0-9]/g, '');
             let f = '';
             if (d.length > 0) f  = d.substring(0, 4);
@@ -226,7 +281,7 @@
         inp._isIdTaken = function () { return idTaken; };
     })();
 
-    /* Helper so clear button can also reset status indicator */
+    /* Helper so clear button + resetForm can also reset status indicator */
     function setIdStatus(type, msg) {
         if (window._empIdSetStatus) window._empIdSetStatus(type, msg);
         const spinner = document.getElementById('empIdSpinner');
@@ -323,7 +378,7 @@
         }
 
         function closeDd() { ul.style.display = 'none'; ul.innerHTML = ''; }
-        closeDdGlobal = closeDd;   /* expose for clear button */
+        closeDdGlobal = closeDd;   /* expose for clear button + resetForm */
 
         inp.addEventListener('focus', function () {
             loadDesignations(opts => {
@@ -432,19 +487,27 @@
             }
 
             const standing = document.getElementById('empStanding').value;
-            const name = document.getElementById('empFirstName').value.trim()
-                       + ' ' + document.getElementById('empLastName').value.trim();
+            const firstName = document.getElementById('empFirstName').value.trim();
+            const lastName  = document.getElementById('empLastName').value.trim();
+            const nameExt   = document.getElementById('empNameExt').value.trim();
+            const fullName  = firstName + ' ' + lastName + (nameExt ? ' ' + nameExt : '');
+
             modalBody.innerHTML =
                 'You are about to save a new employee record for<br>' +
-                '<strong>' + name + '</strong>.<br><br>' +
+                '<strong>' + fullName + '</strong>.<br><br>' +
                 'Department: <strong>PGSO</strong> &nbsp;|&nbsp; ' +
                 'Standing: <strong>' + standing.charAt(0).toUpperCase() + standing.slice(1) + '</strong>' +
                 '<br><br>Continue?';
             overlay.classList.add('active');
         });
 
-        btnCancel.addEventListener('click',  () => overlay.classList.remove('active'));
-        btnConfirm.addEventListener('click', () => { overlay.classList.remove('active'); form.submit(); });
+        btnCancel.addEventListener('click', () => overlay.classList.remove('active'));
+
+        btnConfirm.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            form.submit();
+        });
+
         overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('active'); });
     })();
 
