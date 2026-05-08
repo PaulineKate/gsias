@@ -217,7 +217,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $py_dir   = __DIR__ . DIRECTORY_SEPARATOR . 'python_files';
                         $pi_dir   = __DIR__ . DIRECTORY_SEPARATOR . 'payment_index_file';
                         $tmp_file = $pi_dir . DIRECTORY_SEPARATOR . 'tmp_' . uniqid() . '.json';
-                        $script   = $py_dir . DIRECTORY_SEPARATOR . 'update_excel.py';
+                        $is_windows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+                        $exe_name   = $is_windows ? 'update_excel.exe' : 'update_excel';
+                        $script     = $py_dir . DIRECTORY_SEPARATOR . $exe_name;
 
                         if (!is_dir($py_dir)) {
                             throw new RuntimeException("python_files directory not found: $py_dir");
@@ -229,11 +231,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             throw new RuntimeException("payment_index_file directory is not writable.");
                         }
                         if (!file_exists($script)) {
-                            throw new RuntimeException("update_excel.py not found in python_files/.");
+                            throw new RuntimeException("Executable not found: $script");
                         }
 
                         file_put_contents($tmp_file, json_encode($payload));
-                        $pyOutput = shell_exec('py ' . escapeshellarg($script) . ' ' . escapeshellarg($tmp_file) . ' 2>&1');
+                        $pyOutput = shell_exec(escapeshellarg($script) . ' ' . escapeshellarg($tmp_file) . ' 2>&1');
                         if (file_exists($tmp_file)) unlink($tmp_file);
 
                         if (!empty($pyOutput) && stripos($pyOutput, 'error') !== false) {

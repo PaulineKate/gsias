@@ -13,7 +13,12 @@ try {
 } catch (PDOException $e) {}
 
 try {
-    $stmt         = $conn->query("SELECT COUNT(emp_id) AS total FROM employee_info WHERE emp_standing = 'casual'");
+    $stmt         = $conn->query("
+        SELECT COUNT(first_name) AS total
+        FROM casual_contracts
+        WHERE employment_period_from <= CURRENT_DATE()
+          AND employment_period_to >= DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+    ");
     $casual_count = $stmt->fetch()['total'];
 } catch (PDOException $e) {}
 
@@ -47,11 +52,12 @@ try {
 
 try {
     $stmt           = $conn->query("
-        SELECT emp_designation AS role, COUNT(*) AS count
-        FROM employee_info
-        WHERE emp_standing = 'casual'
-        GROUP BY emp_designation
-        ORDER BY emp_designation ASC
+        SELECT position_title AS role, COUNT(*) AS count
+        FROM casual_contracts
+        WHERE employment_period_from <= CURRENT_DATE()
+          AND employment_period_to >= DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')
+        GROUP BY position_title
+        ORDER BY position_title ASC
     ");
     $casual_by_role = $stmt->fetchAll();
 } catch (PDOException $e) {}

@@ -12,12 +12,13 @@ except ImportError:
     print("openpyxl not installed. Run: py -m pip install openpyxl")
     sys.exit(1)
 
-EXCEL_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..",                                        
-    "payment_index_file",
-    "payroll.xlsx"
-)
+# When running as a PyInstaller exe, use the folder the exe lives in
+if getattr(sys, 'frozen', False):
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.join(BASE_DIR, "..", "payment_index_file", "payroll.xlsx")
 EXCEL_PATH = os.path.normpath(EXCEL_PATH)
 
 COL_OFFSET  = 0
@@ -26,17 +27,17 @@ GAP_ROWS    = 19
 MAX_PERIODS = 13
 HDR_ROWS    = 5
 
-C_PERIOD  = 1  + COL_OFFSET   # A
-C_DAYS    = 2  + COL_OFFSET   # B
-C_RATE    = 3  + COL_OFFSET   # C
-C_WAGE    = 4  + COL_OFFSET   # D
-C_LBP     = 5  + COL_OFFSET   # E
-C_PCONT   = 6  + COL_OFFSET   # F
-C_PMPL    = 7  + COL_OFFSET   # G
-C_SSS     = 8  + COL_OFFSET   # H
-C_LATE    = 9  + COL_OFFSET   # I
-C_NURSERY = 10 + COL_OFFSET   # J
-C_AMTDUE  = 11 + COL_OFFSET   # K
+C_PERIOD  = 1  + COL_OFFSET
+C_DAYS    = 2  + COL_OFFSET
+C_RATE    = 3  + COL_OFFSET
+C_WAGE    = 4  + COL_OFFSET
+C_LBP     = 5  + COL_OFFSET
+C_PCONT   = 6  + COL_OFFSET
+C_PMPL    = 7  + COL_OFFSET
+C_SSS     = 8  + COL_OFFSET
+C_LATE    = 9  + COL_OFFSET
+C_NURSERY = 10 + COL_OFFSET
+C_AMTDUE  = 11 + COL_OFFSET
 
 MONTH_NAMES = ["jan", "feb", "mar", "apr", "may", "jun",
                "jul", "aug", "sep", "oct", "nov", "dec"]
@@ -317,6 +318,7 @@ def fill_period(ws, block_row, period, record, rate):
 
 def main():
     if len(sys.argv) < 2:
+        print("Usage: update_excel <json_file>")
         sys.exit(1)
 
     with open(sys.argv[1], "r", encoding="utf-8") as f:
@@ -344,6 +346,7 @@ def main():
         "nursery_prod":   v("nursery_prod"),
     }
 
+    os.makedirs(os.path.dirname(EXCEL_PATH), exist_ok=True)
     wb = load_workbook(EXCEL_PATH) if os.path.exists(EXCEL_PATH) else Workbook()
     if not os.path.exists(EXCEL_PATH):
         for sn in wb.sheetnames:
@@ -358,6 +361,7 @@ def main():
 
     fill_period(ws, block_row, period, record, rate)
     wb.save(EXCEL_PATH)
+    print(f"Saved: {EXCEL_PATH}")
 
 if __name__ == "__main__":
     main()
